@@ -22,9 +22,10 @@ class ReActAgent(BaseAgent, ABC):
     max_steps: int = 10
     current_step: int = 0
 
-    @abstractmethod
     async def think(self) -> bool:
-        """Process current state and decide next action"""
+        """Process current state and decide next action using the locally deployed Qwen model."""
+        response = await self.call_qwen_model(self.next_step_prompt)
+        return response
 
     @abstractmethod
     async def act(self) -> str:
@@ -32,7 +33,7 @@ class ReActAgent(BaseAgent, ABC):
 
     async def step(self) -> str:
         """Execute a single step: think and act."""
-        should_act = await self.think()
+        should_act = await self.call_qwen_model(self.next_step_prompt)
         if not should_act:
             return "Thinking complete - no action needed"
         return await self.act()

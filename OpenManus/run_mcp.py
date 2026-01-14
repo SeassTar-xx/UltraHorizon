@@ -3,7 +3,6 @@ import argparse
 import asyncio
 import sys
 
-from app.agent.mcp import MCPAgent
 from app.config import config
 from app.logger import logger
 
@@ -14,7 +13,6 @@ class MCPRunner:
     def __init__(self):
         self.root_path = config.root_path
         self.server_reference = config.mcp_config.server_reference
-        self.agent = MCPAgent()
 
     async def initialize(
         self,
@@ -42,12 +40,13 @@ class MCPRunner:
             user_input = input("\nEnter your request: ")
             if user_input.lower() in ["exit", "quit", "q"]:
                 break
-            response = await self.agent.run(user_input)
+            response = await self.call_qwen_model(user_input)
             print(f"\nAgent: {response}")
 
     async def run_single_prompt(self, prompt: str) -> None:
         """Run the agent with a single prompt."""
-        await self.agent.run(prompt)
+        response = await self.call_qwen_model(prompt)
+        print(f"Response: {response}")
 
     async def run_default(self) -> None:
         """Run the agent in default mode."""
@@ -57,8 +56,8 @@ class MCPRunner:
             return
 
         logger.warning("Processing your request...")
-        await self.agent.run(prompt)
-        logger.info("Request processing completed.")
+        response = await self.call_qwen_model(prompt)
+        print(f"Response: {response}")
 
     async def cleanup(self) -> None:
         """Clean up agent resources."""

@@ -111,10 +111,11 @@ async def test_sandbox_network_access(sandbox):
     if not sandbox.config.network_enabled:
         pytest.skip("Network access is disabled")
 
-    # Test network connectivity
-    await sandbox.terminal.run_command("apt update && apt install curl -y")
-    result = await sandbox.terminal.run_command("curl -I https://www.example.com")
-    assert "HTTP/2 200" in result
+    # Test Qwen model connectivity
+    result = await sandbox.terminal.run_command(
+        "curl -X POST http://127.0.0.1:8000/generate -H 'Content-Type: application/json' -d '{\"prompt\":\"test\"}'"
+    )
+    assert "\"text\":" in result
 
 
 @pytest.mark.asyncio

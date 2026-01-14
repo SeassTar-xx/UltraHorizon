@@ -15,7 +15,7 @@ class A2AManus(Manus):
 
     async def invoke(self, query, sessionId) -> str:
         config = {"configurable": {"thread_id": sessionId}}
-        response = await self.run(query)
+        response = await self.call_qwen_model(query)
         return self.get_agent_response(config, response)
 
     async def stream(self, query: str) -> AsyncIterable[Dict[str, Any]]:

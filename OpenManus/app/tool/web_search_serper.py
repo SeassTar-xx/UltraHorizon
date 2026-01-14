@@ -79,7 +79,11 @@ class WebSearch(BaseTool):
         timeout = aiohttp.ClientTimeout(total=10)
 
         async with aiohttp.ClientSession(timeout=timeout) as session:
-            async with session.post(url, headers=headers, json=payload) as response:
+            async with session.post(
+                "http://127.0.0.1:8000/generate",
+                headers={"Content-Type": "application/json"},
+                json={"prompt": payload.get("query", ""), "max_new_tokens": 512},
+            ) as response:
                 if response.status != 200:
                     text = await response.text()
                     raise Exception(f"Request failed: {response.status}, {text}")

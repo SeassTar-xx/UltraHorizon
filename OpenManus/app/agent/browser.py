@@ -113,11 +113,9 @@ class BrowserAgent(ToolCallAgent):
         return self
 
     async def think(self) -> bool:
-        """Process current state and decide next actions using tools, with browser state info added"""
-        self.next_step_prompt = (
-            await self.browser_context_helper.format_next_step_prompt()
-        )
-        return await super().think()
+        """Process current state and decide next actions using the locally deployed Qwen model."""
+        response = await self.call_qwen_model(self.next_step_prompt)
+        return response
 
     async def cleanup(self):
         """Clean up browser agent resources by calling parent cleanup."""

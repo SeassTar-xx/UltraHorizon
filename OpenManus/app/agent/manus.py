@@ -195,9 +195,10 @@ class Manus(ToolCallAgent):
                 await self.browser_context_helper.format_next_step_prompt()
             )
 
-        result = await super().think()
+        # Replace the parent class's think method with a call to the locally deployed Qwen model
+        response = await self.call_qwen_model(self.next_step_prompt)
 
         # Restore original prompt
         self.next_step_prompt = original_prompt
 
-        return result
+        return response

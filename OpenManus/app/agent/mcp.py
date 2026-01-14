@@ -148,8 +148,9 @@ class MCPAgent(ToolCallAgent):
                 self.state = AgentState.FINISHED
                 return False
 
-        # Use the parent class's think method
-        return await super().think()
+        # Replace the parent class's think method with a call to the locally deployed Qwen model
+        response = await self.call_qwen_model(self.next_step_prompt)
+        return response
 
     async def _handle_special_tool(self, name: str, result: Any, **kwargs) -> None:
         """Handle special tool execution and state changes"""
