@@ -1,6 +1,6 @@
 import re
 import logging
-from OpenManus.app.tool.tool_collection import execute_sync
+from OpenManus.app.tool.tool_collection import ToolCollection
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
