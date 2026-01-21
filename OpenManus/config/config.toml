@@ -1,6 +1,6 @@
 # Global LLM configuration
 [llm]
-model = "Kimi-K2-Instruct"
-base_url = "..."
-api_key = "..."
-temperature = 0.3
+model = "qwen3-4b"
+base_url = "http://127.0.0.1:8000/v1"
+api_key = "EMPTY"
+temperature = 0.2
