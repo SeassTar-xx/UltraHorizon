@@ -1,5 +1,6 @@
 """Collection classes for managing multiple tools."""
 from typing import Any, Dict, List
+import asyncio
 
 from app.exceptions import ToolError
 from app.logger import logger
@@ -33,6 +34,16 @@ class ToolCollection:
             return result
         except ToolError as e:
             return ToolFailure(error=e.message)
+
+    def execute_sync(self, name: str, tool_input: Dict[str, Any] = None) -> ToolResult:
+        """
+        Synchronous wrapper for the async execute method.
+        :param name: Name of the tool to execute.
+        :param tool_input: Input parameters for the tool.
+        :return: ToolResult
+        """
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(self.execute(name=name, tool_input=tool_input))
 
     async def execute_all(self) -> List[ToolResult]:
         """Execute all tools in the collection sequentially."""

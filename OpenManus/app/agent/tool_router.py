@@ -1,6 +1,6 @@
 import re
 import logging
-from OpenManus.app.tool.tool_collection import execute
+from OpenManus.app.tool.tool_collection import execute_sync
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -40,7 +40,7 @@ def route_tool_call(text, agent_context):
             tool_name, params = tool_call
             logger.info(f"Tool call detected: {tool_name} with params: {params}")
             try:
-                result = execute(tool_name, params)
+                result = execute_sync(tool_name, params)
                 logger.info(f"Tool result: {result}")
                 agent_context.append(f"TOOL_RESULT: {result}")
             except Exception as e:
