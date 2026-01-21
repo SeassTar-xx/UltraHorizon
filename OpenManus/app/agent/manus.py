@@ -4,6 +4,7 @@ from pydantic import Field, model_validator
 
 from app.agent.browser import BrowserContextHelper
 from app.agent.toolcall import ToolCallAgent
+from app.agent.tool_router import route_tool_call
 from app.config import config
 from app.logger import logger
 from app.prompt.manus import NEXT_STEP_PROMPT, SYSTEM_PROMPT
@@ -74,23 +75,21 @@ class Manus(ToolCallAgent):
         """Initialize connections to configured MCP servers."""
         for server_id, server_config in config.mcp_config.servers.items():
             try:
-                if server_config.type == "sse":
-                    if server_config.url:
-                        await self.connect_mcp_server(server_config.url, server_id)
-                        logger.info(
-                            f"Connected to MCP server {server_id} at {server_config.url}"
-                        )
-                elif server_config.type == "stdio":
-                    if server_config.command:
-                        await self.connect_mcp_server(
-                            server_config.command,
-                            server_id,
-                            use_stdio=True,
-                            stdio_args=server_config.args,
-                        )
-                        logger.info(
-                            f"Connected to MCP server {server_id} using command {server_config.command}"
-                        )
+                if server_config.type == "sse" and server_config.url:
+                    await self.connect_mcp_server(server_config.url, server_id)
+                    logger.info(
+                        f"Connected to MCP server {server_id} at {server_config.url}"
+                    )
+                elif server_config.type == "stdio" and server_config.command:
+                    await self.connect_mcp_server(
+                        server_config.command,
+                        server_id,
+                        use_stdio=True,
+                        stdio_args=server_config.args,
+                    )
+                    logger.info(
+                        f"Connected to MCP server {server_id} using command {server_config.command}"
+                    )
             except Exception as e:
                 logger.error(f"Failed to connect to MCP server {server_id}: {e}")
 
@@ -162,14 +161,6 @@ class Manus(ToolCallAgent):
                 hint = f"\n\n[Wanring]⏳ This message will likely be dropped in ~{turns_left} steps. Record it if important."
 
             msg.content = msg.content + hint
-            # annotated.append(
-            #     Message(
-            #         role=msg.role,
-            #         content=msg.content + hint,
-            #         name=getattr(msg, 'name', None),
-            #         tool_calls=getattr(msg, 'tool_calls', None)
-            #     )
-            # )
         return annotated
 
 
@@ -201,3 +192,22 @@ class Manus(ToolCallAgent):
         self.next_step_prompt = original_prompt
 
         return result
+
+    def main_loop(self, agent_context):
+        """
+        Main loop for the Manus agent, integrating the tool router.
+        :param agent_context: The agent's context to manage state.
+        """
+        for _ in range(self.max_steps):
+            # Generate the next step output
+            output = self.generate_next_step(agent_context)
+
+            # Check and route tool calls
+            route_tool_call(output, agent_context)
+
+            # Append the output to the context
+            agent_context.append(output)
+
+            # Check termination conditions
+            if self.should_terminate(output):
+                break
