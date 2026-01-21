@@ -6,6 +6,9 @@ from OpenManus.app.tool.tool_collection import ToolCollection
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+# Create a ToolCollection instance
+tool_collection = ToolCollection()
+
 def should_call_tool(text):
     """
     Check if the text contains a tool call.
@@ -40,7 +43,7 @@ def route_tool_call(text, agent_context):
             tool_name, params = tool_call
             logger.info(f"Tool call detected: {tool_name} with params: {params}")
             try:
-                result = execute_sync(tool_name, params)
+                result = tool_collection.execute_sync(tool_name, params)
                 logger.info(f"Tool result: {result}")
                 agent_context.append(f"TOOL_RESULT: {result}")
             except Exception as e:
