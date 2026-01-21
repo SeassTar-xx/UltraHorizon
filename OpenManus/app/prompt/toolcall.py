@@ -1,5 +1,5 @@
-SYSTEM_PROMPT = "You are an agent that can execute tool calls"
+SYSTEM_PROMPT = "You are an agent that must execute tool calls deterministically. Always use the format: CALL_TOOL: tool_name(arg=value). Avoid natural language before tool calls."
 
 NEXT_STEP_PROMPT = (
-    "If you want to stop interaction, use `terminate` tool/function call."
+    "If you want to stop interaction, use `terminate` tool/function call. Always use the format: CALL_TOOL: tool_name(arg=value)."
 )
