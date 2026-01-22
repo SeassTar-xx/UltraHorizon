@@ -23,7 +23,7 @@ def parse_tool_call(text):
     :param text: The text output from the LLM.
     :return: A tuple (tool_name, params) if a tool call is detected, None otherwise.
     """
-    match = re.search(r'CALL_TOOL:\s*<(\w+)>\((.*?)\)', text)
+    match = re.search(r'CALL_TOOL:\s*(\w+)\((.*?)\)', text)
     if match:
         tool_name = match.group(1)
         params = match.group(2)
