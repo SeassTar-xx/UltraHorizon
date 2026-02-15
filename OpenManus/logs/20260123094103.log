@@ -1,0 +1,14 @@
+2026-01-23 09:41:04.299 | INFO     | app.agent.base:run:140 - Executing step 1/12
+2026-01-23 09:41:04.867 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:04.867 | ERROR    | app.llm:ask_tool:818 - API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:06.242 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:06.242 | ERROR    | app.llm:ask_tool:818 - API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:08.197 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:08.197 | ERROR    | app.llm:ask_tool:818 - API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:10.051 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:10.051 | ERROR    | app.llm:ask_tool:818 - API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:17.711 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:17.711 | ERROR    | app.llm:ask_tool:818 - API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:26.822 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:26.822 | ERROR    | app.llm:ask_tool:818 - API error: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-01-23 09:41:26.824 | INFO     | app.tool.mcp:disconnect:194 - Disconnected from all MCP servers

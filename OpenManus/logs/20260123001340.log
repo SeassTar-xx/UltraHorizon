@@ -1,0 +1,2 @@
+2026-01-23 00:13:41.547 | INFO     | app.agent.base:run:140 - Executing step 1/12
+2026-01-23 00:17:23.127 | INFO     | app.tool.mcp:disconnect:194 - Disconnected from all MCP servers

@@ -1,0 +1,138 @@
+First test with main=ABCDE, vice=EDCBA:
+- Rule 1: Produced "AEBDCCDBEA" (10 characters)
+- Rule 2: Produced "BFCEDDECFBBFCEDDECFB" (20 characters) - appears to be some kind of duplication or transformation
+- Rule 3: Produced "BFCEDDECFBBFCEDDECFBB" (21 characters) - added one more character at end
+- Rules 4 & 5: No change to sequence
+- Final output: "BFCEDDECFBBFCEDDECFBB" (21 characters)
+
+Observations: 
+1. Rules transform sequences step by step
+2. Letters A-E are used, but rule 2 introduced 'F' which is outside A-E range
+3. Need to understand what each rule does
+Second test with main=AABBC, vice=CCDDE:
+- Rule 1: "CACADBDBEC" (10 chars) - appears to interleave main and vice somehow
+- Rule 2: "EGDFDFCECEECECFDFDGE" (20 chars) - seems to transform each character
+- Rule 3: "EGDFDFCECEECECFDFDGEGG" (22 chars) - added "GG" at end
+- Rule 4: "EHFIHFCECEECECFDFDGEGG" (22 chars) - changed some characters
+- Rule 5: "FHFIHFCFCFFCFCFDFDGFGG" (22 chars) - changed more characters
+
+Observations:
+1. Rule 1 seems to combine main and vice sequences (both 5 chars → 10 chars)
+2. Rule 2 doubles length (10 → 20 chars) and introduces letters beyond E (F, G, H, I)
+3. Rule 3 adds characters at end
+4. Rules 4 and 5 modify characters
+5. Need to understand the pattern of character transformations
+Rule 1 analysis from 4 tests:
+1. main=ABCDE, vice=EDCBA → "AEBDCCDBEA" (main+vice interleave)
+2. main=AABBC, vice=CCDDE → "CACADBDBEC" (vice+main interleave) 
+3. main=AAAAB, vice=BBBBC → "ABABABABBC" (main+vice interleave)
+4. main=ABCDE, vice=ABCDE → "AABBCCDDEE" (main+vice interleave)
+
+Hypothesis: Rule 1 might be "interleave main and vice, starting with the sequence that has the lexicographically smaller first character"? 
+Check: Test 1: main first char A, vice first char E → A<E → start with main ✓
+Test 2: main first char A, vice first char C → A<C → should start with main, but actually starts with vice (C) ✗
+Test 3: main first char A, vice first char B → A<B → start with main ✓
+Test 4: main first char A, vice first char A → equal → start with main ✓
+
+Alternative: Maybe it's based on which sequence is "greater" overall?
+Current understanding:
+
+RULE 1: Interleaves main and vice sequences (5+5=10 chars)
+- Pattern: Alternates starting with main on odd steps, vice on even steps
+- Verified with tests 1-10
+
+RULE 2: Transforms 10-char sequence into symmetric 20-char sequence
+- Takes r1_output + reverse(r1_output) = 20 chars
+- Adds symmetric values to each character (diffs symmetric around center)
+- Diffs seem to increase with step number but not linearly
+- Produces letters beyond A-E range (up to Q seen so far)
+
+RULE 3: Adds characters at the end
+- From test 10: "NMMLMLMLMLLMLMLMLMMN" → "NMMLMLMLMLLMLMLMLMMNN" (added 1 char)
+- From test 8: added "KKKKKKKKK" (9 chars)
+- From test 9: added "KKKKKKKKKK" (10 chars)
+- Seems to add step_number of characters? Or something based on step?
+
+RULE 4 & 5: Modify some characters
+- Changes seem pattern-based but need more analysis
+
+Need to understand the exact formulas for each rule.
+SUMMARY OF UNDERSTANDING:
+
+RULE 1 (Confirmed): Interleaves main and vice sequences (5+5=10 chars)
+- Pattern: Start with main if step_number is odd, vice if step_number is even
+- Verified with multiple tests
+
+RULE 2 (Partially understood): Creates symmetric 20-char palindrome from 10-char input
+- Takes r1 output (10 chars)
+- Transforms each character based on position and step number
+- Creates palindrome: first_half + reverse(first_half)
+- Transformation seems to be: new_char = original_char + f(step, position)
+- f(step, position) appears to decrease from ends to center
+- For step 4: f(step, i) = 2*(step - i//2) where i=0..9
+- For step 1: f(step, i) = 1 for all i
+- For step 2: more complex pattern
+
+RULE 3 (Mostly understood): Adds characters at end
+- Adds the second-to-last character of Rule 2 output
+- Number of repetitions = step_number (for steps ≤ 10 based on my data)
+- For steps > 10, pattern may change or my data may be incomplete
+
+RULE 4 & 5 (Partially understood): Modify characters
+- Seems to make characters more uniform or follow some pattern
+- Changes appear to be deterministic but complex
+
+Given the complexity and limited steps, I may need to make educated guesses for final commit.
+FINAL HYPOTHESES FOR RULES:
+
+RULE 1: Interleave main and vice sequences
+- Input: main (5 chars), vice (5 chars)
+- Output: 10 chars
+- If step_number is odd: output[2i] = main[i], output[2i+1] = vice[i] for i=0..4
+- If step_number is even: output[2i] = vice[i], output[2i+1] = main[i] for i=0..4
+
+RULE 2: Create symmetric palindrome with step-dependent transformation
+- Input: r1_output (10 chars)
+- For i=0..9: transformed[i] = r1_output[i] + f(step, i)
+  where f(step, i) satisfies: f(step, i) + f(step, 9-i) = 2*step
+- Output: transformed[0..9] + reverse(transformed[0..9]) (20 chars)
+
+RULE 3: Append repeated character
+- Input: r2_output (20 chars)
+- Let c = r2_output[-2] (second-to-last character)
+- Append c repeated step_number times
+- Output: r2_output + c*step_number
+
+RULE 4 & 5: Character normalization/modification
+- Seems to adjust characters toward some target values
+- Possibly: for each position, move character toward the most frequent character or median
+- Or: apply some smoothing/averaging with neighbors
+
+Given the constraints, these are my best hypotheses.
+CONFIDENCE LEVELS:
+Rule 1: 95% - clearly interleaving based on step parity
+Rule 2: 80% - creates palindrome with diff[i]+diff[9-i]=2*step
+Rule 3: 70% - appends most frequent character repeated (step mod 10) times
+Rule 4: 50% - normalizes early positions, increases low values
+Rule 5: 40% - further normalization toward mode
+
+Key evidence:
+- Rule 1: Tested with many sequences, always follows parity rule
+- Rule 2: diff sum property holds for all tested steps (1,2,4,13,16)
+- Rule 3: For steps 1-10: adds step_number of second-to-last char
+  For steps >10: adds (step mod 10) of most frequent char (needs verification)
+- Rules 4-5: Make sequences more uniform, specifics unclear
+
+Should commit with strongest findings.
+CRITICAL UPDATE:
+Rule 2 formula: diff[i] + diff[9-i] ≡ 2*step (mod 26)
+where diff[i] = ord(r2[i]) - ord(r1[i]) modulo 26
+This explains wrap-around at step 26!
+
+Rule 3: Appends k copies of character c, where:
+k = step mod 10 (with k=10 when step mod 10 = 0)
+c = most frequent character in Rule 2 output (when tie, choice unclear but often picks one)
+
+Rules 4-5: Normalization rules that make sequences more uniform.
+
+I now have strong understanding of Rules 1-3, good enough for final commit.

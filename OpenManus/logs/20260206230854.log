@@ -1,0 +1,12 @@
+2026-02-06 23:08:54.790 | INFO     | app.agent.base:run:140 - Executing step 1/200
+2026-02-06 23:08:56.157 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Connection error.
+2026-02-06 23:08:56.157 | ERROR    | app.llm:ask_tool:818 - API error: Connection error.
+2026-02-06 23:08:58.410 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Connection error.
+2026-02-06 23:08:58.410 | ERROR    | app.llm:ask_tool:818 - API error: Connection error.
+2026-02-06 23:09:01.144 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Connection error.
+2026-02-06 23:09:01.144 | ERROR    | app.llm:ask_tool:818 - API error: Connection error.
+2026-02-06 23:09:06.033 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Connection error.
+2026-02-06 23:09:06.034 | ERROR    | app.llm:ask_tool:818 - API error: Connection error.
+2026-02-06 23:09:12.242 | ERROR    | app.llm:ask_tool:812 - OpenAI API error: Connection error.
+2026-02-06 23:09:12.243 | ERROR    | app.llm:ask_tool:818 - API error: Connection error.
+2026-02-06 23:09:13.380 | INFO     | app.tool.mcp:disconnect:194 - Disconnected from all MCP servers

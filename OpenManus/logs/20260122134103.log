@@ -1,0 +1,78 @@
+2026-01-22 13:41:04.226 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2026-01-22 13:41:04.837 | INFO     | app.llm:update_token_count:258 - Token usage: Input=1975, Completion=37, Cumulative Input=1975, Cumulative Completion=37, Total=2012, Cumulative Total=2012
+2026-01-22 13:41:04.837 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:04.837 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:04.837 | INFO     | app.agent.base:run:140 - Executing step 2/20
+2026-01-22 13:41:05.428 | INFO     | app.llm:update_token_count:258 - Token usage: Input=2248, Completion=37, Cumulative Input=4223, Cumulative Completion=74, Total=2285, Cumulative Total=4297
+2026-01-22 13:41:05.428 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:05.428 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:05.428 | INFO     | app.agent.base:run:140 - Executing step 3/20
+2026-01-22 13:41:06.046 | INFO     | app.llm:update_token_count:258 - Token usage: Input=2521, Completion=37, Cumulative Input=6744, Cumulative Completion=111, Total=2558, Cumulative Total=6855
+2026-01-22 13:41:06.046 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:06.047 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:06.047 | INFO     | app.agent.base:run:140 - Executing step 4/20
+2026-01-22 13:41:06.674 | INFO     | app.llm:update_token_count:258 - Token usage: Input=2794, Completion=37, Cumulative Input=9538, Cumulative Completion=148, Total=2831, Cumulative Total=9686
+2026-01-22 13:41:06.674 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:06.674 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:06.675 | INFO     | app.agent.base:run:140 - Executing step 5/20
+2026-01-22 13:41:07.336 | INFO     | app.llm:update_token_count:258 - Token usage: Input=3067, Completion=37, Cumulative Input=12605, Cumulative Completion=185, Total=3104, Cumulative Total=12790
+2026-01-22 13:41:07.336 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:07.336 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:07.337 | INFO     | app.agent.base:run:140 - Executing step 6/20
+2026-01-22 13:41:08.002 | INFO     | app.llm:update_token_count:258 - Token usage: Input=3340, Completion=37, Cumulative Input=15945, Cumulative Completion=222, Total=3377, Cumulative Total=16167
+2026-01-22 13:41:08.002 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:08.002 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:08.002 | INFO     | app.agent.base:run:140 - Executing step 7/20
+2026-01-22 13:41:08.671 | INFO     | app.llm:update_token_count:258 - Token usage: Input=3613, Completion=37, Cumulative Input=19558, Cumulative Completion=259, Total=3650, Cumulative Total=19817
+2026-01-22 13:41:08.672 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:08.672 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:08.672 | INFO     | app.agent.base:run:140 - Executing step 8/20
+2026-01-22 13:41:09.371 | INFO     | app.llm:update_token_count:258 - Token usage: Input=3886, Completion=37, Cumulative Input=23444, Cumulative Completion=296, Total=3923, Cumulative Total=23740
+2026-01-22 13:41:09.372 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:09.372 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:09.372 | INFO     | app.agent.base:run:140 - Executing step 9/20
+2026-01-22 13:41:10.078 | INFO     | app.llm:update_token_count:258 - Token usage: Input=4159, Completion=37, Cumulative Input=27603, Cumulative Completion=333, Total=4196, Cumulative Total=27936
+2026-01-22 13:41:10.079 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:10.079 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:10.079 | INFO     | app.agent.base:run:140 - Executing step 10/20
+2026-01-22 13:41:10.790 | INFO     | app.llm:update_token_count:258 - Token usage: Input=4432, Completion=37, Cumulative Input=32035, Cumulative Completion=370, Total=4469, Cumulative Total=32405
+2026-01-22 13:41:10.791 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:10.791 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:10.791 | INFO     | app.agent.base:run:140 - Executing step 11/20
+2026-01-22 13:41:11.509 | INFO     | app.llm:update_token_count:258 - Token usage: Input=4705, Completion=37, Cumulative Input=36740, Cumulative Completion=407, Total=4742, Cumulative Total=37147
+2026-01-22 13:41:11.509 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:11.510 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:11.510 | INFO     | app.agent.base:run:140 - Executing step 12/20
+2026-01-22 13:41:12.237 | INFO     | app.llm:update_token_count:258 - Token usage: Input=4978, Completion=37, Cumulative Input=41718, Cumulative Completion=444, Total=5015, Cumulative Total=42162
+2026-01-22 13:41:12.237 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:12.237 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:12.237 | INFO     | app.agent.base:run:140 - Executing step 13/20
+2026-01-22 13:41:12.990 | INFO     | app.llm:update_token_count:258 - Token usage: Input=5251, Completion=37, Cumulative Input=46969, Cumulative Completion=481, Total=5288, Cumulative Total=47450
+2026-01-22 13:41:12.990 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:12.990 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:12.990 | INFO     | app.agent.base:run:140 - Executing step 14/20
+2026-01-22 13:41:13.748 | INFO     | app.llm:update_token_count:258 - Token usage: Input=5524, Completion=37, Cumulative Input=52493, Cumulative Completion=518, Total=5561, Cumulative Total=53011
+2026-01-22 13:41:13.749 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:13.749 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:13.749 | INFO     | app.agent.base:run:140 - Executing step 15/20
+2026-01-22 13:41:14.517 | INFO     | app.llm:update_token_count:258 - Token usage: Input=5797, Completion=37, Cumulative Input=58290, Cumulative Completion=555, Total=5834, Cumulative Total=58845
+2026-01-22 13:41:14.517 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:14.517 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:14.517 | INFO     | app.agent.base:run:140 - Executing step 16/20
+2026-01-22 13:41:15.292 | INFO     | app.llm:update_token_count:258 - Token usage: Input=6070, Completion=37, Cumulative Input=64360, Cumulative Completion=592, Total=6107, Cumulative Total=64952
+2026-01-22 13:41:15.293 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:15.293 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:15.293 | INFO     | app.agent.base:run:140 - Executing step 17/20
+2026-01-22 13:41:16.065 | INFO     | app.llm:update_token_count:258 - Token usage: Input=6343, Completion=37, Cumulative Input=70703, Cumulative Completion=629, Total=6380, Cumulative Total=71332
+2026-01-22 13:41:16.065 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:16.065 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:16.065 | INFO     | app.agent.base:run:140 - Executing step 18/20
+2026-01-22 13:41:16.869 | INFO     | app.llm:update_token_count:258 - Token usage: Input=6616, Completion=37, Cumulative Input=77319, Cumulative Completion=666, Total=6653, Cumulative Total=77985
+2026-01-22 13:41:16.870 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:16.870 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:16.870 | INFO     | app.agent.base:run:140 - Executing step 19/20
+2026-01-22 13:41:17.690 | INFO     | app.llm:update_token_count:258 - Token usage: Input=6889, Completion=37, Cumulative Input=84208, Cumulative Completion=703, Total=6926, Cumulative Total=84911
+2026-01-22 13:41:17.690 | INFO     | app.agent.toolcall:think:102 - ✨ Manus's thoughts: CALL_TOOL: generate_initial_sequences
+2026-01-22 13:41:17.690 | INFO     | app.agent.toolcall:think:103 - ��️ Manus selected 0 tools to use
+2026-01-22 13:41:17.690 | INFO     | app.agent.base:run:140 - Executing step 20/20
+2026-01-22 13:41:17.858 | INFO     | app.tool.mcp:disconnect:194 - Disconnected from all MCP servers

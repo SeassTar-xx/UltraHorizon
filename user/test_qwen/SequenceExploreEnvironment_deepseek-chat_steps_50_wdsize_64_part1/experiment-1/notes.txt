@@ -1,0 +1,330 @@
+Starting exploration of dual-sequence transformation system. Need to discover hidden rules 1-5. First step: test basic patterns to understand transformation flow.
+First test: main=ABCDE, vice=EDCBA. Observations: Rule 1 produced 'AEBDCCDBEA' (10 chars). Rule 2 produced 'BFCEDDECFBBFCEDDECFB' (20 chars). Rule 3-5 didn't change sequence. Letters A-E plus F? F appears in output but not input. Need to understand mapping.
+Test 2: main=AABBB, vice=BBAAA. Rule 1: 'BABAABABAB' (10 chars). Rule 2: 'DCDCDCCDCDDCDCCDCDCD' (20 chars). Rule 3: added 'CC' at end? Actually 'DCDCDCCDCDDCDCCDCDCDCC' (22 chars). Rule 4: changed first few chars 'DDFFHCCDCDDCDCCDCDCDCC'. Rule 5: 'DDFFHDDDDDDDDDDDDDDDDD' (20 chars). Pattern: Rule 1 seems to interleave main and vice? Let's analyze.
+Rule 1 discovered: It's interleaving of main and vice sequences. For test 1: main+vice interleave (A+E, B+D, C+C, D+B, E+A) = AEBDCCDBEA. For test 2: vice+main interleave (B+A, B+A, A+B, A+B, A+B) = BABAABABAB. So rule 1 alternates between main+vice or vice+main? Need more tests.
+Test 3: main=ABCDE, vice=ABCDE (identical). Rule 1: 'AABBCCDDEE' - this is main+vice interleave (A+A, B+B, C+C, D+D, E+E). So rule 1 is consistently main+vice interleave? But test 2 showed vice+main. Let's check: For test 2 (AABBB, BBAAA), main+vice would be A+B, A+B, B+A, B+A, B+A = ABABBABABA but output was BABAABABAB (vice+main). So rule 1 might depend on something.
+Test 4: main=EDCBA, vice=ABCDE (reverse of test 1). Rule 1 output: 'AEBDCCDBEA' - same as test 1! So rule 1 produces same output regardless of which is main/vice? Actually test 1 had main=ABCDE, vice=EDCBA and got same output. So rule 1 is symmetric? Let's analyze: For (ABCDE, EDCBA) and (EDCBA, ABCDE) both give 'AEBDCCDBEA'. This suggests rule 1 takes pairs (A,E), (B,D), (C,C), (D,B), (E,A) and outputs them in some order.
+Rule 1 analysis: For identical sequences (ABCDE/ABCDE), output is alphabetical pairs AABBCCDDEE. For other cases, not simply alphabetical. Let's examine output 'AEBDCCDBEA' from test 1 & 4: positions: 0:A+E, 1:B+D, 2:C+C, 3:D+B, 4:E+A. This looks like first half is main+vice (A+E, B+D, C+C) and second half is reverse? Actually 'AEBDCCDBEA' - first 5 chars 'AEBDC' then 'CDBEA'. Let's test more.
+Test 5: main=ABCAB, vice=DEDED. Rule 1 output: 'ADBECDAEBD' (10 chars). Pairs: (A,D), (B,E), (C,D), (A,E), (B,D). Output: A D B E C D A E B D. Let's analyze pattern.
+Interesting! For test 5 (ABCAB/DEDED), ALL pairs are in alphabetical order (AD, BE, CD, AE, BD). For test 1 & 4, first 3 pairs are alphabetical (AE, BD, CC) but last 2 are reverse (DB, EA). For test 2 (AABBB/BBAAA), first 2 pairs are reverse (BA, BA), last 3 are alphabetical (AB, AB, AB). Pattern: Maybe rule 1 outputs pairs in alphabetical order EXCEPT when it would create a non-palindromic structure? Or maybe depends on position relative to center?
+Key observation: When symmetric positions (i and 4-i) have the same unordered pair, rule 1 makes them palindromic (AE/EA, BD/DB). When they don't have same unordered pair, outputs alphabetical order (AD, BE, CD, AE, BD for test 5). For identical letters at same position (C,C), outputs CC. So rule 1: For each position i, output the two letters sorted alphabetically, BUT if position i and (4-i) share same unordered pair, make them mirror images (alphabetical at i, reverse at 4-i) to create palindrome.
+Test 6: main=AACDE, vice=BBCDE. Rule 1 output: 'BABACCDDEE'. Pairs: (A,B)=BA, (A,B)=BA, (C,C)=CC, (D,D)=DD, (E,E)=EE. First 2 pairs are reverse alphabetical (BA), others alphabetical. Symmetric positions: pos0(A,B) vs pos4(E,E) - different unordered pairs, so should be alphabetical? But got BA. pos1(A,B) vs pos3(D,D) - different, got BA. So my hypothesis might be wrong. Let's analyze more.
+Pattern: Some cases have all pairs alphabetical (ABCAB/DEDED, ABCDE/ABCDE). Others have some non-alphabetical pairs. Looking at non-alphabetical cases: test1,2,4,6 all have positions where output is reverse alphabetical. Maybe rule depends on comparing main and vice sequences as whole? Or maybe rule 1 has memory/state? Let's examine rule 2 now.
+Rule 2 observation: Output is always symmetric (first 10 chars = reverse of last 10 chars). So rule 2 takes 10-char input, transforms each character, then appends reverse of transformed string. Transformation seems to map A-E (and maybe F?) to other letters (A->B? H? I? etc). Need to find mapping pattern.
+Rule 2 mapping is NOT simple Caesar cipher. Initial mapping A->B, B->C, C->D, D->E, E->F works for first case only. Other cases show different mappings. So rule 2 transformation depends on something else - maybe position in string, or context, or both sequences. Let's examine more carefully.
+Looking at position-based analysis: Mapping varies by position AND by case. But looking at 'Analyzing if mapping depends on original pair' section: For each original pair (main[i],vice[i]), rule 1 produces 2 chars, rule 2 transforms them to 2 chars. Example: (A,E) -> AE -> BF in case 0, but (A,E) -> AE -> EI in case 3, (A,E) -> AE -> JG in case 4. So transformation depends on more than just the pair. Maybe depends on position i? Or maybe rule 2 uses some function of both letters?
+Test 7: main=ABCDE, vice=ABCDE (identical). Rule 1: AABBCCDDEE (as expected - alphabetical pairs). Rule 2: LLKKJJIIHHHHIIJJKKLL (20 chars, symmetric). Mapping: A->L, A->L, B->K, B->K, C->J, C->J, D->I, D->I, E->H, E->H. So each pair (A,A) maps to (L,L), (B,B) to (K,K), etc. This suggests rule 2 mapping depends on the pair of letters being transformed. Let's test more patterns.
+Test 8: main=AABBB, vice=BBAAA (same as test 2 in notes). Rule 1: BABAABABAB (vice+main interleave: B+A, A+B, B+A, A+B, A+B). Rule 2: JIJIJIIJIJJIJIIJIJIJ (20 chars, symmetric). Mapping: B->J, A->I, B->J, A->I, A->I, B->J, A->I, B->J, A->I, B->J. So (A,B) pairs map to (I,J) or (J,I) depending on order? Let's analyze: positions 0:(B,A)->JI, 1:(A,B)->IJ, 2:(B,A)->JI, 3:(A,B)->IJ, 4:(A,B)->IJ. So (A,B) maps to (I,J) when A comes first, (J,I) when B comes first? Actually in rule 1 output: B A B A A B A B A B. So (B,A) pairs at positions 0,2 map to JI, (A,B) pairs at positions 1,3,4 map to IJ. So rule 2 mapping depends on the ORDER of letters in rule 1 output, not just the unordered pair.
+Test 9: main=ABABA, vice=BABAB. Rule 1: ABBAABBAAB (10 chars). Let's analyze: positions: 0:A+B=AB, 1:B+A=BA but output is BB? Wait, output is ABBAABBAAB. Let's compute main+vice interleave: A+B=AB, B+A=BA, A+B=AB, B+A=BA, A+B=AB = ABBABAABAB? Not matching. Let's compute vice+main: B+A=BA, A+B=AB, B+A=BA, A+B=AB, B+A=BA = BAABBAABBA? Not matching. So rule 1 is not simple interleave. Let's analyze systematically: main=ABABA, vice=BABAB. Pairs: (A,B), (B,A), (A,B), (B,A), (A,B). Output: AB BA AB BA AB? But actual output: AB BA AB BA AB would be ABBAABBAAB? Actually AB+BA+AB+BA+AB = ABBAABBAAB. Yes! So rule 1 outputs concatenation of pairs (main[i]+vice[i]) for i=0..4. So rule 1 is simply concatenating each position's pair: main[0]+vice[0], main[1]+vice[1], ..., main[4]+vice[4]. This explains all previous tests! For test 7 (ABCDE/ABCDE): pairs: A+A, B+B, C+C, D+D, E+E = AABBCCDDEE. For test 8 (AABBB/BBAAA): pairs: A+B, A+B, B+A, B+A, B+A = AB AB BA BA BA = ABABBABABA? But output was BABAABABAB. Wait, that doesn't match. Let me recalc: main=AABBB, vice=BBAAA. Pairs: (A,B), (A,B), (B,A), (B,A), (B,A). Concatenation: AB AB BA BA BA = ABABBABABA. But actual output: BABAABABAB. So rule 1 is NOT simple concatenation. Need to re-examine.
+Test 10: main=AAAAB, vice=BBBBA. Pairs: (A,B), (A,B), (A,B), (A,B), (B,A). Rule 1 output: BABABABAAB. Let's compute expected concatenation: AB AB AB AB BA = ABABABABBA. Actual: BABABABAAB. So it's NOT simple concatenation. Let's compare with test 8 (AABBB/BBAAA): pairs (A,B), (A,B), (B,A), (B,A), (B,A). Output: BABAABABAB. Expected concatenation: AB AB BA BA BA = ABABBABABA. So rule 1 seems to be: for each position i, output vice[i]+main[i] (reverse order) for some positions, and main[i]+vice[i] for others. Pattern: For test 10: positions 0-3: B+A (vice+main), position 4: A+B (main+vice). For test 8: positions 0,2: B+A (vice+main), positions 1,3,4: A+B (main+vice). For test 9 (ABABA/BABAB): all positions: A+B (main+vice). For test 7 (ABCDE/ABCDE): all positions: A+A (main+vice). So rule 1 might be: output the pair in alphabetical order? Let's check: (A,B) alphabetically is AB. But test 10 has BA for positions 0-3. So not alphabetical. Maybe rule 1 outputs the pair sorted by some criterion based on the sequences as whole?
+Pattern in Rule 1: Looking at test cases:
+1. (ABCDE, EDCBA): Output pairs are in alphabetical order (AE, BD, CC, DB, EA). Wait, DB is reverse alphabetical. Actually positions 0-2: alphabetical (AE, BD, CC), positions 3-4: reverse alphabetical (DB, EA). This creates palindrome: AE BD CC DB EA.
+2. (AABBB, BBAAA): Output: BA BA AB AB AB. This is NOT alphabetical. But notice: positions where main[i] < vice[i]? Let's check: pos0: A<B -> BA (reverse), pos1: A<B -> BA (reverse), pos2: B>A -> AB (alphabetical), pos3: B>A -> AB (alphabetical), pos4: B>A -> AB (alphabetical). So when main[i] < vice[i], output is vice+main (reverse). When main[i] > vice[i], output is main+vice (alphabetical).
+3. (ABCDE, ABCDE): All equal, output alphabetical (AA, BB, CC, DD, EE).
+4. (ABABA, BABAB): pos0: A<B -> AB (alphabetical? Wait A<B so should be BA but got AB). Actually A<B, so according to pattern from case 2, should be BA but got AB. So pattern doesn't hold.
+5. (AAAAB, BBBBA): pos0-3: A<B -> BA (reverse), pos4: B>A -> AB (alphabetical). This matches pattern from case 2!
+
+So pattern might be: For each position i, if main[i] <= vice[i], output main+vice (alphabetical), else output vice+main (reverse alphabetical). Let's test: For case 4 (ABABA/BABAB): pos0: A<B -> AB ✓, pos1: B>A -> AB? Should be BA but got BA ✓, pos2: A<B -> AB ✓, pos3: B>A -> BA ✓, pos4: A<B -> AB ✓. Actually output was AB BA AB BA AB, which matches! So pattern holds for all cases except maybe case 1? Let's check case 1: pos0: A<E -> AE (alphabetical ✓), pos1: B<D -> BD (alphabetical ✓), pos2: C=C -> CC (alphabetical ✓), pos3: D>B -> DB (reverse alphabetical ✓), pos4: E>A -> EA (reverse alphabetical ✓). Pattern holds! So Rule 1: For each position i, output the two letters in alphabetical order (main[i]+vice[i] if main[i] <= vice[i], else vice[i]+main[i]).
+Test 11: main=CDEAB, vice=ABCED. Rule 1 output: CADBECAEBD. Pairs: (C,A)->CA, (D,B)->DB, (E,C)->EC, (A,E)->AE, (B,D)->BD. So positions 0-2: reverse alphabetical (CA, DB, EC), positions 3-4: alphabetical (AE, BD). Pattern: For positions where main[i] > vice[i], output is main+vice (reverse alphabetical). For positions where main[i] < vice[i], output is vice+main (also reverse alphabetical?). Wait: pos3: A<E, output AE (alphabetical). pos4: B<D, output BD (alphabetical). So actually: when main[i] < vice[i], output alphabetical (main+vice). When main[i] > vice[i], output reverse alphabetical (main+vice? Actually main+vice would be reverse alphabetical when main>vice). Let me check: pos0: C>A, main+vice=CA (reverse alphabetical ✓), pos1: D>B, DB (reverse alphabetical ✓), pos2: E>C, EC (reverse alphabetical ✓), pos3: A<E, AE (alphabetical ✓), pos4: B<D, BD (alphabetical ✓). So rule is: output main[i]+vice[i] always, regardless of order! That would give: CA DB EC AE BD = CADBECAEB D? Wait that's CADBECAEB D? Actually concatenation: CA+DB+EC+AE+BD = CADBECAEB D? That's 10 chars: CADBECAEB D? Let's write: CA DB EC AE BD = C A D B E C A E B D = CADBECAEB D? Actually CADBECAEBD! Yes! So rule 1 is simply: for each position i, output main[i] then vice[i]. That's it! Let me verify with previous tests:
+Test 7 (ABCDE/ABCDE): A A B B C C D D E E = AABBCCDDEE ✓
+Test 8 (AABBB/BBAAA): A B A B B A B A B A = ABABBABABA but actual was BABAABABAB. Wait mismatch. Let me compute: main=AABBB, vice=BBAAA. Output should be: A B A B B A B A B A = ABABBABABA. But actual was BABAABABAB. So rule 1 is NOT simply main+vice concatenation. Need to re-examine.
+Test 14: main=BBCCA, vice=AACCB. Rule 1 output: ABABCCCCBA. Pattern: VVMMV (positions: 0:V, 1:V, 2:M, 3:M, 4:V). So rule 1 can use mixed patterns! This is crucial. Let's analyze: pairs: (B,A)->AB (V), (B,A)->AB (V), (C,C)->CC (M), (C,C)->CC (M), (A,B)->BA (V). So for identical letters (C,C), output is main+vice (CC). For (B,A) pairs, output is vice+main (AB). For (A,B) pair at position 4, output is vice+main (BA). Wait, (A,B) should be AB if vice+main, but output is BA. Actually vice[4]=B, main[4]=A, so vice+main would be BA, which matches. So pattern seems to be: output the pair in alphabetical order? Let's check: (B,A) alphabetically is AB ✓, (C,C) is CC ✓, (A,B) is AB but output is BA ✗. So not alphabetical.
+
+Maybe rule is: for each position i, if main[i] >= vice[i], output main+vice, else output vice+main? Let's test: pos0: B>=A -> main+vice=BA but output is AB ✗. pos1: B>=A -> BA but output AB ✗. pos2: C>=C -> CC ✓. pos3: C>=C -> CC ✓. pos4: A>=B -> false, so vice+main=BA ✓. So only positions 2-4 match this rule.
+
+Maybe rule depends on something else like position parity? Let's check: pos0 (even): V, pos1 (odd): V, pos2 (even): M, pos3 (odd): M, pos4 (even): V. Not consistent by parity.
+Analyzing Rule 1 patterns:
+
+Test 1: ABCDE/EDCBA -> AEBDCCDBEA
+Pairs: (A,E), (B,D), (C,C), (D,B), (E,A)
+Output: AE BD CC DB EA
+Pattern: First 3 positions alphabetical (AE, BD, CC), last 2 reverse alphabetical (DB, EA) - creates palindrome
+
+Test 2: AABBB/BBAAA -> BABAABABAB
+Pairs: (A,B), (A,B), (B,A), (B,A), (B,A)
+Output: BA BA AB AB AB
+Pattern: When main[i] < vice[i] (A<B): BA (reverse), when main[i] > vice[i] (B>A): AB (alphabetical)
+
+Test 3: ABCDE/ABCDE -> AABBCCDDEE
+Pairs: (A,A), (B,B), (C,C), (D,D), (E,E)
+Output: AA BB CC DD EE (all alphabetical)
+
+Test 4: ABABA/BABAB -> BAABBAABBA
+Pairs: (A,B), (B,A), (A,B), (B,A), (A,B)
+Output: BA AB BA AB BA
+Pattern: pos0: A<B -> BA (reverse), pos1: B>A -> AB (alphabetical), pos2: A<B -> BA, pos3: B>A -> AB, pos4: A<B -> BA
+This matches pattern from Test 2!
+
+Test 5: AAAAB/BBBBA -> ABABABABBA
+Pairs: (A,B), (A,B), (A,B), (A,B), (B,A)
+Output: AB AB AB AB BA
+Pattern: pos0-3: A<B -> AB (alphabetical? Wait should be BA but got AB), pos4: B>A -> BA (reverse)
+This doesn't match pattern from Test 2.
+
+So Rule 1 is NOT simply "if main[i] < vice[i] then reverse else alphabetical". Need more analysis.
+Rule 1 Analysis Summary:
+
+Test cases and outputs:
+1. ABCDE/EDCBA -> AEBDCCDBEA (palindrome: AE BD CC DB EA)
+   Symmetric pairs: pos0/4: AE/EA (opposite), pos1/3: BD/DB (opposite)
+
+2. AABBB/BBAAA -> BABAABABAB (not palindrome: BA BA AB AB AB)
+   Symmetric pairs: pos0/4: BA/AB (opposite), pos1/3: BA/AB (opposite)
+
+3. ABCDE/ABCDE -> AABBCCDDEE (not palindrome: AA BB CC DD EE)
+   Only center is symmetric with itself
+
+4. ABABA/BABAB -> BAABBAABBA (not palindrome: BA AB BA AB BA)
+   Symmetric pairs: pos0/4: BA/BA (same), pos1/3: AB/AB (same)
+
+5. AAAAB/BBBBA -> ABABABABBA (not palindrome: AB AB AB AB BA)
+   Symmetric pairs: pos0/4: AB/BA (opposite), pos1/3: AB/AB (same)
+
+6. AACDE/BBCDE -> BABACCDDEE (not palindrome: BA BA CC DD EE)
+   Only center is symmetric with itself
+
+7. ABCAB/DEDED -> ADBECDAEBD (all alphabetical: AD BE CD AE BD)
+   No symmetric pairs (except center with itself)
+
+Observations:
+- When letters are equal at a position (AA, BB, etc), output is always alphabetical (AA, BB, etc)
+- When symmetric positions have DIFFERENT unordered pairs, output is alphabetical
+- When symmetric positions have SAME unordered pairs, behavior varies:
+  * Sometimes they get opposite orders (AE/EA, BD/DB, BA/AB)
+  * Sometimes they get same orders (BA/BA, AB/AB)
+  
+Need to find what determines whether symmetric pairs get same or opposite orders.
+Rule 2 Analysis:
+
+From observations:
+- Rule 2 takes the 10-character output from Rule 1
+- It produces a 20-character output that is always symmetric (first 10 chars = reverse of last 10 chars)
+- Each character from Rule 1 output is transformed to another character
+- The transformation seems consistent for each position/context
+
+Examples:
+1. ABCDE/EDCBA: Rule 1: AEBDCCDBEA, Rule 2: PTQSRRSQTPPTQSRRSQTP
+   Mapping: A->P, E->T, B->Q, D->S, C->R, C->R, D->S, B->Q, E->T, A->P
+   Note: Symmetric positions get same mapping (A<->P, E<->T, etc.)
+
+2. AABBB/BBAAA: Rule 1: BABAABABAB, Rule 2: RQRQRQQRQRRQRQQRQRQR
+   Mapping: B->R, A->Q, B->R, A->Q, A->Q, B->R, A->Q, B->R, A->Q, B->R
+
+3. ABCDE/ABCDE: Rule 1: AABBCCDDEE, Rule 2: VVUUTTSSRRRRSSTTUUVV
+   Mapping: A->V, A->V, B->U, B->U, C->T, C->T, D->S, D->S, E->R, E->R
+
+Pattern: The transformation seems to map each input character to a consistent output character based on the character itself AND possibly its position or context.
+
+Important: Rule 2 output is always a palindrome of length 20 (first 10 chars = reverse of last 10).
+Analyzing Rule 1 patterns:
+
+Test 1: ABCDE/EDCBA -> AEBDCCDBEA
+Pairs: (A,E), (B,D), (C,C), (D,B), (E,A)
+Output: AE BD CC DB EA
+Pattern: First 3 positions alphabetical (AE, BD, CC), last 2 reverse alphabetical (DB, EA) creating palindrome
+
+Test 2: AABBB/BBAAA -> BABAABABAB
+Pairs: (A,B), (A,B), (B,A), (B,A), (B,A)
+Output: BA BA AB AB AB
+Pattern: When main[i] < vice[i] (A<B): BA (reverse), when main[i] > vice[i] (B>A): AB (alphabetical)
+
+Test 3: ABCDE/ABCDE -> AABBCCDDEE
+All equal pairs, all alphabetical
+
+Test 4: ABABA/BABAB -> BAABBAABBA
+Pairs: (A,B), (B,A), (A,B), (B,A), (A,B)
+Output: BA AB BA AB BA
+Pattern: Alternating based on position? Let's check: pos0: A<B -> BA (reverse), pos1: B>A -> AB (alphabetical), pos2: A<B -> BA, pos3: B>A -> AB, pos4: A<B -> BA. This matches pattern from test 2!
+
+Test 5: AAAAB/BBBBA -> ABABABABBA
+Pairs: (A,B), (A,B), (A,B), (A,B), (B,A)
+Output: AB AB AB AB BA
+Pattern: pos0-3: A<B -> AB (alphabetical?), pos4: B>A -> BA (reverse?). Wait this contradicts test 2 pattern.
+
+Let me re-examine: For test 2, when A<B we got BA (reverse), but for test 5 when A<B we got AB (alphabetical). So pattern is not consistent.
+
+Maybe Rule 1 depends on something else like position parity or overall sequence properties.
+Rule 2 observations:
+1. Always produces 20-character output
+2. Output appears symmetric (palindromic)
+3. For ABCDE/EDCBA: "ZDACBBCADZZDACBBCADZ" - first 10 chars "ZDACBBCADZ", last 10 chars reverse "ZDACBBCADZ" (same)
+4. For AABBB/BBAAA: "BABABAABABBABAABABAB" - first 10 "BABABAABAB", last 10 reverse "BABAABABAB" (not exactly same but similar)
+5. For ABCDE/ABCDE: "FFEEDDCCBBBBCCDDEEFF" - first 10 "FFEEDDCCBB", last 10 reverse "BBCCDDEEFF" (not same)
+
+Wait, let me check symmetry more carefully. For ABCDE/ABCDE: "FFEEDDCCBBBBCCDDEEFF" - positions 0-9: FFEEDDCCBB, positions 10-19: BBCCDDEEFF. These are reverses of each other! Yes, so Rule 2 takes the 10-char Rule 1 output, transforms it somehow, then appends its reverse.
+
+So Rule 2: f(x) + reverse(f(x)) where x is Rule 1 output.
+
+Now what is f(x)? It seems to transform each character. Let's analyze mapping from Rule 1 to Rule 2 for ABCDE/ABCDE:
+Rule 1: A A B B C C D D E E
+Rule 2: F F E E D D C C B B B B C C D D E E F F
+
+So mapping: A->F, A->F, B->E, B->E, C->D, C->D, D->C, D->C, E->B, E->B
+
+This looks like A->F (A+5?), B->E (B+3?), C->D (C+1?), D->C (D-1?), E->B (E-3?). Not consistent.
+
+Let me check ABCDE/EDCBA:
+Rule 1: A E B D C C D B E A
+Rule 2: Z D A C B B C A D Z Z D A C B B C A D Z
+
+Mapping: A->Z, E->D, B->A, D->C, C->B, C->B, D->C, B->A, E->D, A->Z
+
+This is confusing. Maybe f depends on position or context.
+Current understanding:
+
+Rule 1: Takes main and vice sequences (each 5 chars), produces 10-char output. Seems complex - not simple interleaving or alphabetical sorting. Might depend on creating palindromes or some optimization.
+
+Rule 2: Takes 10-char Rule 1 output, applies transformation f to each character, produces f(x) + reverse(f(x)) where x is Rule 1 output. f is not simple character mapping - depends on position/context.
+
+Rule 3: Adds n copies of some character c to end of Rule 2 output. n and c seem to vary. Need to find pattern.
+
+Rule 4: Modifies some characters in the string.
+
+Rule 5: Sometimes modifies more characters.
+
+Need more systematic testing. Let me design tests to isolate each rule's behavior.
+Summary of findings:
+
+Rule 1: Creates 10-char string from 5 pairs (main[i], vice[i]). 
+- When sequences are identical: outputs alphabetical pairs (AA, BB, etc.)
+- When sequences can form palindrome (mirror positions have same unordered pairs): arranges pairs to create palindrome, mixing alphabetical and reverse alphabetical as needed
+- When sequences cannot form palindrome: seems to prefer alphabetical order, but sometimes reverse alphabetical (e.g., ABCDE/BCDEE). May depend on overall sequence properties.
+
+Rule 2: Transforms 10-char Rule 1 output to 20-char symmetric string f(x) + reverse(f(x)). Transformation f depends on position AND original sequences (not just Rule 1 output).
+
+Rule 3: Appends n copies of character c to end. n varies (1-10 in examples). c is usually not in original alphabet (A-E), seems to be based on transformed alphabet.
+
+Rule 4: Modifies some characters in the string. Seems to change specific positions.
+
+Rule 5: Sometimes modifies more characters (not always).
+
+Need to make educated guess for final commit.
+Current observations from new tests:
+
+Rule 1 patterns:
+1. (ABCDE, EDCBA) -> EADBCCBDAE
+   Pairs: (A,E)->EA, (B,D)->AD, (C,C)->DB, (D,B)->CB, (E,A)->DAE? Wait, output is EADBCCBDAE (10 chars)
+   Actually: E A D B C C B D A E
+   Position pairs: 0:(A,E)->EA, 1:(B,D)->AD, 2:(C,C)->DB, 3:(D,B)->CB, 4:(E,A)->DAE? This doesn't make sense.
+
+Let me analyze properly:
+Input: main=ABCDE, vice=EDCBA
+Pairs by position: 0:(A,E), 1:(B,D), 2:(C,C), 3:(D,B), 4:(E,A)
+Output: E A D B C C B D A E
+So: (A,E)->EA (reverse), (B,D)->AD (mixed?), (C,C)->DB (not CC!), (D,B)->CB, (E,A)->DAE? No, last is just E.
+
+Wait, maybe output is 5 pairs of 2 chars: EA DB CC BD AE? But that's 10 chars: EADBCCBDAE = EA DB CC BD AE
+Yes! So output is: EA, DB, CC, BD, AE
+So: (A,E)->EA (vice+main), (B,D)->DB (vice+main), (C,C)->CC (main+vice), (D,B)->BD (main+vice), (E,A)->AE (main+vice)
+
+2. (AABBB, BBAAA) -> ABABBABABA
+   Pairs: (A,B)->AB, (A,B)->AB, (B,A)->BA, (B,A)->BA, (B,A)->BA
+   Output: AB AB BA BA BA = ABABBABABA ✓
+
+3. (ABCDE, ABCDE) -> AABBCCDDEE
+   Pairs: (A,A)->AA, (B,B)->BB, (C,C)->CC, (D,D)->DD, (E,E)->EE ✓
+
+4. (ABABA, BABAB) -> ABBAABBAAB
+   Pairs: (A,B)->AB, (B,A)->BA, (A,B)->AB, (B,A)->BA, (A,B)->AB
+   Output: AB BA AB BA AB = ABBAABBAAB ✓
+
+5. (AAAAB, BBBBA) -> BABABABAAB
+   Pairs: (A,B)->BA, (A,B)->BA, (A,B)->BA, (A,B)->BA, (B,A)->AB
+   Output: BA BA BA BA AB = BABABABAAB ✓
+
+So Rule 1 appears to be: For each position i, output the pair (main[i], vice[i]) but the ORDER depends on something.
+
+Looking at patterns:
+- When letters are equal (A,A), output is alphabetical (AA)
+- When main[i] < vice[i]: sometimes AB, sometimes BA
+- When main[i] > vice[i]: sometimes AB, sometimes BA
+
+Let me check alphabetical order hypothesis:
+For (A,B): alphabetical is AB
+Test 2: (A,B)->AB ✓
+Test 4: (A,B)->AB ✓  
+Test 5: (A,B)->BA ✗ (should be AB)
+Test 1: (A,E)->EA ✗ (should be AE)
+
+So not simply alphabetical.
+
+Maybe it's: output the pair sorted by some criterion based on the entire sequences or positions?
+Current understanding:
+
+Rule 1: Creates 10-character string from 5 pairs (main[i], vice[i])
+Pattern seems complex. From test (ABCBA, EDCDE) -> AEBDCCBDAE
+Pairs: (A,E)->AE, (B,D)->BD, (C,C)->CC, (B,D)->BD, (A,E)->AE
+This creates a palindrome: AE BD CC BD AE
+
+From first test (ABCDE, EDCBA) -> EADBCCBDAE
+Pairs: (A,E)->EA, (B,D)->DB, (C,C)->CC, (D,B)->BD, (E,A)->AE
+This is also a palindrome: EA DB CC BD AE
+
+So Rule 1 seems to output pairs that form a palindrome when possible. The order within each pair might be chosen to achieve palindrome structure.
+
+Hypothesis for Rule 1: For position i (0-4), output the pair (x,y) where:
+- If main[i] == vice[i], output main[i]+vice[i] (e.g., CC)
+- Otherwise, choose order to create symmetric pairs with position (4-i)
+- Specifically, for positions i and (4-i), output should be reverses of each other
+
+Check: For (ABCDE, EDCBA):
+Pos 0: (A,E) -> EA
+Pos 4: (E,A) -> AE (reverse of EA) ✓
+Pos 1: (B,D) -> DB  
+Pos 3: (D,B) -> BD (reverse of DB) ✓
+Pos 2: (C,C) -> CC (self-reverse) ✓
+
+For (ABCBA, EDCDE):
+Pos 0: (A,E) -> AE
+Pos 4: (A,E) -> AE (same, not reverse) - but wait, (A,E) and (A,E) are same unordered pair, so AE and AE are fine
+Pos 1: (B,D) -> BD
+Pos 3: (B,D) -> BD (same)
+Pos 2: (C,C) -> CC
+
+So when symmetric positions have same unordered pair, output same ordered pair. When they have reverse unordered pair (like (A,E) and (E,A)), output reverse ordered pairs.
+
+Now check other cases:
+(AABBB, BBAAA) -> ABABBABABA
+Pairs: AB, AB, BA, BA, BA
+Pos 0: (A,B) -> AB
+Pos 4: (B,A) -> BA (reverse of AB) ✓
+Pos 1: (A,B) -> AB  
+Pos 3: (B,A) -> BA (reverse of AB) ✓
+Pos 2: (B,A) -> BA (should pair with itself at pos 2)
+
+So this fits the pattern!
+
+(ABABA, BABAB) -> ABBAABBAAB
+Pairs: AB, BA, AB, BA, AB
+Pos 0: (A,B) -> AB
+Pos 4: (A,B) -> AB (same, not reverse) - but (A,B) and (A,B) are same unordered pair
+Pos 1: (B,A) -> BA
+Pos 3: (B,A) -> BA (same)
+Pos 2: (A,B) -> AB
+
+This also fits!
+
+(AAAAB, BBBBA) -> BABABABAAB
+Pairs: BA, BA, BA, BA, AB
+Pos 0: (A,B) -> BA
+Pos 4: (B,A) -> AB (reverse of BA) ✓
+Pos 1: (A,B) -> BA
+Pos 3: (A,B) -> BA (same, not reverse) - but pos1 and pos3 both have (A,B), so same is correct
+Pos 2: (A,B) -> BA (center)
+
+This fits too!
+
+So Rule 1 seems to be: For each position i, output the pair (main[i], vice[i]) in an order that creates palindrome structure:
+- If i == 4-i (center), output in some default order (alphabetical?)
+- If unordered pair at i equals unordered pair at 4-i, output same order
+- If unordered pair at i is reverse of unordered pair at 4-i, output reverse orders
+- Default order might be alphabetical or based on something else
+
+Now Rule 2: Creates 20-char symmetric string where second half = reverse(first half)
+Mapping from Rule 1 chars to Rule 2 chars seems to be a substitution cipher that might depend on position or context.
+
+Rule 3: Appends some characters (often repeats of last char or something)
+Rule 4: Modifies some characters
+Rule 5: Sometimes modifies, sometimes doesn't
+
+Need more tests to understand Rules 2-5 fully.

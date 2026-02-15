@@ -1,0 +1,59 @@
+Starting new sequence exploration game. Need to discover hidden transformation rules applied to pairs of 5-character sequences (A-E). Must input pairs with at least 2 different letters each. There are 5 rules (1-5) that transform sequences. Need to reach 50 steps or submit final answer when confident about rules.
+First test: main=ABCDE, vice=EDCBA
+- Rule 1: Produced "AEBDCCDBEA" (10 chars) - appears to be interleaving or pairing?
+- Rule 2: Produced "BFCEDDECFBBFCEDDECFB" (20 chars) - doubled the sequence? Contains F which is not in original A-E range
+- Rule 3: Added one more character at end? "BFCEDDECFBBFCEDDECFBB" (21 chars)
+- Rules 4 & 5: No change to sequence
+- Final output: 21 characters with F appearing
+Test 2: main=AAAAB, vice=BBBBC
+- Rule 1: "BABABABACB" (10 chars) - pattern: B A B A B A B A C B
+  Looks like alternating between vice[0] and main[0], vice[1] and main[1], etc.
+  Positions: B(vice[0]), A(main[0]), B(vice[1]), A(main[1]), B(vice[2]), A(main[2]), B(vice[3]), A(main[3]), C(vice[4]), B(main[4])
+  Yes! Rule 1 appears to be: for i=0..4: output[2i] = vice[i], output[2i+1] = main[i]
+  
+- Rule 2: "DECDCDCDCDDCDCDCDCED" (20 chars) - doubled? Contains D,E,C
+  Starting to see pattern: might be applying some transformation to each character
+  
+- Rule 3: Added "EE" at end? "DECDCDCDCDDCDCDCDCEDEE" (22 chars)
+  
+- Rule 4: Changed some characters: "DFEGGDCDCDDCDCDCDCEDEE" (22 chars)
+  
+- Rule 5: More changes: "EFEGGECECEECECECECEEEE" (22 chars)
+Test 3: main=ABCDE, vice=ABCDE
+- Rule 1: "AABBCCDDEE" - confirms alternating pattern: vice[0], main[0], vice[1], main[1], etc.
+- Rule 2: "HHGGFFEEDDDDEEFFGGHH" (20 chars) - appears symmetric: HH GG FF EE DD DD EE FF GG HH
+  Looks like it might be: reverse of transformed sequence + transformed sequence?
+  Or some mapping: A->H, B->G, C->F, D->E, E->D?
+  
+Need to analyze character transformations more systematically.
+Current understanding:
+1. Rule 1: Creates 10-char sequence: for i=0..4: output[2i] = main[i], output[2i+1] = vice[i]
+2. Rule 2: Takes Rule 1 output, transforms it to new 10-char sequence, then outputs: transformed + reverse(transformed) = 20 chars
+   Transformation seems complex - not simple character shift
+3. Rule 3: Adds N characters at end of Rule 2 output. N appears to be 1,2,3,4,5 in my tests (sequential).
+   Added character seems variable - not simply last or second-last char of Rule 2.
+
+Need more systematic testing to understand Rules 2, 3, 4, 5.
+New discoveries:
+- Rule 3: Adds N copies of some character at the end, where N = step number
+- Character added seems related to Rule 2 output but pattern not clear yet
+- Need to understand Rule 2 transformation better
+- Rules 4 and 5 modify characters - need to analyze what changes
+
+Hypothesis for Rule 2: Might be applying some function based on position and/or original sequences
+Need to test with very controlled inputs to isolate patterns
+Need to test hypothesis: Rule 2 transformation might use original main/vice sequences.
+Test idea: Use main=ABCDE, vice=ABCDE at different steps to see if Rule 2 changes.
+Already did: step 3 gave HHGGFFEEDDDDEEFFGGHH, step 8 gave MMLLKKJJIIIIJJKKLLMM.
+So Rule 2 depends on step number or cumulative state.
+
+Maybe there's a global offset that increments each step?
+Or maybe transformation is: new_char = f(old_char, position, step, original_main, original_vice)
+
+Given complexity, might need to submit partial understanding.
+But should try more tests first.
+Need to reach 50 steps. Will use simple alternating patterns to quickly use steps while observing patterns.
+
+Current step: 19, need 31 more steps.
+
+Will alternate between simple patterns to see consistency.
