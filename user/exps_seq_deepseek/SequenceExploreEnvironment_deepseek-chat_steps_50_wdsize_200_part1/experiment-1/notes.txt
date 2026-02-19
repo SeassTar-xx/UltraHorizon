@@ -1,0 +1,131 @@
+Starting new sequence exploration game. Need to discover hidden transformation rules applied to pairs of 5-character sequences (A-E). Must input pairs with at least 2 different letters each. There are 5 rules (1-5) that transform sequences. Need to reach 50 steps or submit final answer when confident about rules.
+First test: main=ABCDE, vice=EDCBA
+- Rule 1: Produced "AEBDCCDBEA" (10 chars)
+- Rule 2: Produced "BFCEDDECFBBFCEDDECFB" (20 chars) - appears to double the sequence
+- Rule 3: Produced "BFCEDDECFBBFCEDDECFBB" (21 chars) - added one character at end
+- Rules 4 & 5: No change to sequence
+- Note: Letters F appear in output but input only had A-E. F might represent something special.
+Second test: main=AABBC, vice=CCDDE
+- Rule 1: "CACADBDBEC" (10 chars) - seems to interleave main and vice somehow
+- Rule 2: "EGDFDFCECEECECFDFDGE" (20 chars) - doubled? Actually 20 chars, different pattern
+- Rule 3: "EGDFDFCECEECECFDFDGEGG" (22 chars) - added "GG" at end
+- Rule 4: "EHFIHFCECEECECFDFDGEGG" (22 chars) - changed some letters (E→H, D→I, G→H?)
+- Rule 5: "FHFIHFCFCFFCFCFDFDGFGG" (22 chars) - more letter changes
+- Observations: Letters go beyond E (F, G, H, I appear). Might be some kind of encoding or transformation.
+Third test: main=AAAAB, vice=BBBBC
+- Rule 1: "ABABABABBC" (10 chars) - This looks like interleaving! Let me check:
+  main: A A A A B
+  vice: B B B B C
+  Interleaved: A B A B A B A B B C (positions 1,3,5,7,9 from main; 2,4,6,8,10 from vice)
+  Yes! Rule 1 = interleave main and vice characters (main at odd positions, vice at even positions)
+  
+- Rule 2: "FEEDEDEDEDDEDEDEDEEF" (20 chars) - Seems to transform the 10-char sequence into 20 chars
+- Rule 3: Adds "EEE" at end (making 23 chars)
+- Rules 4 & 5: Modify letters
+Fourth test: main=ABCDE, vice=ABCDE
+- Rule 1: "AABBCCDDEE" (interleaving identical sequences)
+- Rule 2: "IIHHGGFFEEEEFFGGHHII" (20 chars)
+  Pattern: Seems symmetric! Let me check:
+  Input: A A B B C C D D E E
+  Output: I I H H G G F F E E E E F F G G H H I I
+  Looks like each pair of identical letters gets transformed to a descending then ascending pattern.
+  A→I, B→H, C→G, D→F, E→E (stays same)
+  Then mirrored: E→E, F→F, G→G, H→H, I→I
+  
+  Actually, looking at letter positions in alphabet:
+  A=1, B=2, C=3, D=4, E=5
+  Output letters: I=9, H=8, G=7, F=6, E=5
+  So transformation: letter → (10 - letter_value)? Let me test:
+  A(1) → I(9) = 10-1=9 ✓
+  B(2) → H(8) = 10-2=8 ✓
+  C(3) → G(7) = 10-3=7 ✓
+  D(4) → F(6) = 10-4=6 ✓
+  E(5) → E(5) = 10-5=5 ✓
+  
+  Then the sequence is doubled with mirroring: first half transformed, second half is reverse of first half.
+  So Rule 2: Transform each letter x to (10 - x_value), then create symmetric sequence of length 20.
+Fifth test: main=ABABA, vice=CDCDC
+- Rule 1: "ACBDACBDAC" (interleaving confirmed)
+- Rule 2: "HFIGHFIGHFFHGIFHGIFH" (20 chars, palindrome)
+  First half: HFIGHFIGHF
+  Second half: FHGIFHGIFH (reverse of first half with F in middle?)
+  Actually "HFIGHFIGHF" + "FHGIFHGIFH" but there's an extra F? Let me check:
+  Full: H F I G H F I G H F F H G I F H G I F H
+  Positions: 1-10: H F I G H F I G H F
+  11-20: F H G I F H G I F H
+  So it's first 10 chars + reverse of first 10 chars
+  
+  Transformation from Rule 1 "ACBDACBDAC":
+  A→H, C→F, B→I, D→G, A→H, C→F, B→I, D→G, A→H, C→F
+  Pattern: A→H (diff 7), C→F (diff 3), B→I (diff 7), D→G (diff 3)
+  Not consistent...
+Sixth test: main=AAAAB, vice=AAAAC
+- Rule 1: "AAAAAAAACB" (A A A A A A A A C B)
+- Rule 2: "HIGGGGGGGGGGGGGGGGIH" (20 chars)
+  First half: H I G G G G G G G G (10 chars)
+  Second half: G G G G G G G G I H (reverse of first half?)
+  
+  Actually: H I G G G G G G G G + G G G G G G G G I H
+  Not exactly reverse. Let me check letter by letter:
+  Rule 1: A A A A A A A A C B
+  Rule 2 first 10: H I G G G G G G G G
+  
+  Transformations:
+  A→H (position 1)
+  A→I (position 2) 
+  A→G (position 3)
+  A→G (position 4)
+  A→G (position 5)
+  A→G (position 6)
+  A→G (position 7)
+  A→G (position 8)
+  C→G (position 9)
+  B→G (position 10)
+  
+  So first two positions get special treatment (H, I), rest become G.
+  Then second half is mostly Gs with I,H at end.
+  
+  This suggests Rule 2 might be: create palindrome where first half is transformed based on position, second half is mirror.
+Summary of discovered rules:
+
+Rule 1: CONFIRMED - Interleaves main and vice sequences. Takes characters from main at odd positions (1,3,5,7,9) and vice at even positions (2,4,6,8,10) to create 10-character sequence.
+
+Rule 2: PARTIALLY UNDERSTOOD - Creates 20-character palindrome from Rule 1 output. First 10 chars are transformed version of Rule 1 output, last 10 chars are reverse of first 10 chars.
+- For IDENTICAL sequences (main == vice): Transformation: new_value = (step_number + 5) - floor(i/2) where i is 0-indexed position. Creates symmetric descending-then-ascending pattern.
+- For REVERSE sequences (main == vice[::-1]): Transformation: new_value = old_value + step_number (simple addition)
+- For DIFFERENT sequences: Transformation varies complexly. Not fully determined.
+
+Rule 3: UNCERTAIN - Adds characters to end of sequence. Number and character vary. Might depend on frequency or position.
+
+Rules 4 & 5: UNCERTAIN - Modify some letters in sequence. Seem to create more repetition or symmetry.
+
+Need more testing to fully determine Rules 2 (different cases), 3, 4, 5.
+NEW DISCOVERY: Rule 1 depends on step parity!
+- Odd steps (1, 3, 5, ...): main at odd positions (1,3,5,7,9), vice at even (2,4,6,8,10)
+- Even steps (2, 4, 6, ...): vice at odd positions, main at even positions
+
+This explains why step 28 gave different Rule 1 output than step 1 for same input.
+Final understanding after 50 steps:
+
+Rule 1: Interleaves main and vice sequences, but depends on step parity:
+- Odd steps: main at odd positions (1,3,5,7,9), vice at even (2,4,6,8,10)
+- Even steps: vice at odd positions, main at even positions
+
+Rule 2: Creates 20-character palindrome. First 10 chars transformed from Rule 1 output, last 10 chars are reverse.
+Transformations depend on relationship between original sequences:
+
+A. IDENTICAL sequences (main == vice):
+   new_value = ((step + 5) mod 26) - floor(i/2) where i is 0-indexed
+   Creates symmetric descending-then-ascending pattern
+
+B. REVERSE sequences (main == vice[::-1]):
+   new_value = (old_value + step) mod 26 (with 1=A, 2=B, ..., 26=Z, 0=Z)
+   Simple addition modulo 26
+
+C. DIFFERENT sequences: Complex transformation not fully determined
+
+Rule 3: Adds characters to end. Pattern unclear but often adds repeated characters.
+
+Rules 4 & 5: Modify some letters, often creating more repetition or symmetry.
+
+Note: All letter values use modulo 26 arithmetic (A=1, B=2, ..., Z=26, wrap-around).

@@ -1,0 +1,78 @@
+EXPLORATION PLAN:
+1. Start with simple, systematic test cases to understand basic transformations
+2. Test each rule's effect by varying one parameter at a time
+3. Look for patterns in position-based transformations
+4. Investigate relationships between main and vice sequences
+5. Track transformation chains to understand rule dependencies
+6. Build hypotheses and test them with targeted experiments
+OBSERVATION 1:
+Input: main="ABCDE", vice="EDCBA"
+Rule 1 output: "AEBDCCDBEA" (10 chars)
+Rule 2 output: "BFCEDDECFBBFCEDDECFB" (20 chars) - appears to be duplication with transformation
+Rules 3-5: No change to sequence in this case
+
+Patterns to investigate:
+1. How does rule 1 combine main and vice?
+2. What transformation does rule 2 apply?
+3. When do rules 3-5 actually change sequences?
+OBSERVATION 2:
+Input: main="AABBC", vice="CCDDE"
+Rule 1: "CACADBDBEC" (10 chars)
+Rule 2: "EGDFDFCECEECECFDFDGE" (20 chars) - appears to be rule 1 output transformed and duplicated
+Rule 3: "EGDFDFCECEECECFDFDGEGG" (22 chars) - adds "GG" at end
+Rule 4: "EHFIHFCECEECECFDFDGEGG" - changes some letters
+Rule 5: "FHFIHFCFCFFCFCFDFDGFGG" - more letter changes
+
+Hypothesis: Rule 1 interleaves main and vice sequences somehow.
+Let me check: main="AABBC", vice="CCDDE"
+If I interleave: A C A C A D B D B E C? That gives "ACACADBDBEC" but rule 1 is "CACADBDBEC" - close but starts with C instead of A.
+HYPOTHESIS FOR RULE 1:
+From test cases:
+1. main="ABCDE", vice="ABCDE" → "AABBCCDDEE" (main[i]+vice[i])
+2. main="AABBC", vice="AABBC" → "AAAABBBBCC" (main[i]+vice[i])
+3. main="ABCDE", vice="EDCBA" → "AEBDCCDBEA" (main[i]+vice[i]? Let's check: A+E=AE, B+D=BD, C+C=CC, D+B=DB, E+A=EA → "AEBDCCDBEA" ✓)
+4. main="AABBC", vice="CCDDE" → "CACADBDBEC" (This doesn't match main[i]+vice[i] which would be "ACACBDBDCE")
+
+Wait, maybe it's vice[i]+main[i] for case 4?
+Position 1: C,A → "CA"
+Position 2: C,A → "CA"
+Position 3: D,B → "DB"
+Position 4: D,B → "DB"
+Position 5: E,C → "EC"
+That gives "CACADBDBEC" ✓
+
+So rule 1 might be: For each position i, output vice[i] + main[i]?
+But test case 1 would then be "AABBCCDDEE" (same since main=vice)
+Test case 2 would be "AAAABBBBCC" (same since main=vice)
+Test case 3 would be: E,A + D,B + C,C + B,D + A,E = "EADBCCBDAE" but output is "AEBDCCDBEA"
+
+So maybe it alternates? Or depends on something else?
+CURRENT UNDERSTANDING:
+
+Rule 1: Takes main and vice sequences (5 chars each), produces 10-char output.
+Pattern not yet clear - seems to pair letters from each position but order varies.
+
+Rule 2: Takes 10-char input, produces 20-char palindrome output.
+Output = X + reverse(X) where X is 10-char transformation of input.
+Transformation not yet understood.
+
+Rule 3: Adds some characters at the end (extends length).
+Rule 4: Changes some letters.
+Rule 5: Changes more letters.
+
+Need more systematic testing to understand rule 1. Let me test simple patterns to isolate variables.
+COMPREHENSIVE TEST PLAN:
+
+1. Test rule 1 systematically:
+   - Cases where main and vice are identical
+   - Cases where main < vice lexicographically
+   - Cases where main > vice lexicographically
+   - Cases with specific patterns (reverse, rotation, etc.)
+
+2. Test rule 2: Need to understand the transformation from 10 chars to first half of 20-char palindrome
+
+3. Test rule 3: What determines how many chars are added and which chars?
+
+4. Test rules 4 and 5: Letter substitution patterns
+
+Given time constraints, I should focus on discovering the exact mechanisms rather than exhaustive testing. The goal is to submit the complete mapping of rules to mechanisms.

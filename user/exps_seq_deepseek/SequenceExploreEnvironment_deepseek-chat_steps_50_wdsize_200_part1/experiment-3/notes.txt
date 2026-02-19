@@ -1,0 +1,162 @@
+Starting exploration of dual-sequence transformation system. Need to discover hidden rules 1-5. First step: test basic patterns to understand transformation flow.
+First test: main=ABCDE, vice=EDCBA. Observations: rule_1 produced 'AEBDCCDBEA' (10 chars). rule_2 produced 'BFCEDDECFBBFCEDDECFB' (20 chars). rule_3,4,5 didn't change sequence. Letters A-E plus F? F appears in output but not input. Need to understand mapping.
+Test 2: main=AAAAB, vice=BBBBC. rule_1: 'BABABABACB' (10 chars). rule_2: 'DECDCDCDCDDCDCDCDCED' (20 chars). rule_3 added 'EE' at end? Actually changed from 20 to 22 chars. rule_4 changed some letters. rule_5 changed more letters. Need to analyze pattern: rule_1 seems to interleave main and vice? Let's check: main[1]=A, vice[1]=B -> B? Actually first char of rule_1 output is B. Let's analyze systematically.
+Rule 1 discovered: Creates pairs (vice[i], main[i]) but sorted alphabetically? Actually output shows sorted pairs: For (E,A) -> AE, (D,B) -> BD, (C,C) -> CC, (B,D) -> DB, (A,E) -> EA. So rule_1 takes each position i, creates pair (main[i], vice[i]), sorts them alphabetically, and concatenates all 5 pairs. Confirmed with test 2: (A,B) -> BA? Wait (A,B) sorted would be AB not BA. Let's check: (A,B) sorted is AB but output shows BA. Hmm. Actually maybe it's (vice[i], main[i]) without sorting? For test 1: vice[0]=E, main[0]=A -> EA but output shows AE. So maybe it's min(main[i], vice[i]) then max? Let's test more.
+Test 3: main=ABCDE, vice=ABCDE. rule_1: 'AABBCCDDEE' - confirms sorted pairs: (A,A)->AA, (B,B)->BB, etc. So rule_1: For each position i, take main[i] and vice[i], sort them alphabetically, output as pair. Good. Now rule_2: 'HHGGFFEEDDDDEEFFGGHH' (20 chars). Input to rule_2 is 10 chars from rule_1. Output is 20 chars. Seems like mirror pattern? Let's analyze.
+Rule 2 analysis: Output is 20 chars, symmetric. For test 3: rule2 = transform(rule1) + reverse(transform(rule1)). Transform seems to be letter shift: A->H (shift +7?), B->G (+6?), C->F (+3?), D->E (+1?), E->D (-1?). Not consistent. Let's check ASCII: A=65, H=72 (+7). B=66, G=71 (+5). C=67, F=70 (+3). D=68, E=69 (+1). E=69, D=68 (-1). Pattern: shift decreases as letter increases. Maybe mapping based on position in alphabet? Let's test more.
+Test 4: main=ABCDE, vice=BCDEA. rule_1: 'BACBDCEDAE' - sorted pairs: (A,B)->AB? Wait output shows BA. Actually (A,B) sorted is AB but output BA. Let's check: main[0]=A, vice[0]=B, pair would be AB sorted but output BA. Hmm maybe I misunderstood rule_1. Let's re-examine: For test 1: (A,E) -> AE (A<E). For test 2: (A,B) -> BA (A<B but output BA). For test 3: (A,A) -> AA. For test 4: (A,B) -> BA again. So rule_1 is NOT simply sorting. Maybe it's (vice[i], main[i])? For test 1: vice[0]=E, main[0]=A -> EA but output AE. So not that either. Let's analyze systematically.
+Rule 1 hypothesis: if main[i] < vice[i] then vice+main else main+vice. Works for tests 2 and 3 but fails for tests 1 and 4. Let's check test 1: For position 0: A<E, so main<vice, should output vice+main = EA but actual is AE. So opposite! Maybe: if main[i] < vice[i] then main+vice else vice+main? Test: For A<E: main<vice true, output main+vice = AE matches! For position 3: D>B, main>vice false, output vice+main = BD but actual is DB. Hmm. Let's test new hypothesis: output the pair in reverse alphabetical order? Actually for (A,E): AE is alphabetical. For (D,B): DB is reverse alphabetical. Not consistent.
+Interesting pattern: For even positions (0,2,4): output seems to be alphabetical order (AE, CC, EA for test 1; AB? wait test 1 pos0 AE is alphabetical, pos2 CC same, pos4 EA is reverse? Actually EA is reverse alphabetical. Hmm. For test 4: pos0 BA is reverse alphabetical, pos2 DC is reverse, pos4 AE is alphabetical. Not consistent. Let's look at odd positions: test1 pos1 BD (alphabetical), pos3 DB (reverse). test4 pos1 CB (reverse), pos3 ED (reverse). Maybe rule depends on whether main[i] equals vice[i] or not? Let's test more systematically with new test.
+Test 5: main=AAABB, vice=BBAAA. rule_1: 'ABABAABABA'. Let's analyze: positions: 0: (A,B)->AB (alphabetical), 1: (A,B)->BA (reverse), 2: (A,A)->AA, 3: (B,A)->AB (alphabetical), 4: (B,A)->BA (reverse). Pattern: positions 0,3 give AB; positions 1,4 give BA. Maybe depends on whether position index is even or odd? pos0 even->AB, pos1 odd->BA, pos2 even->AA, pos3 odd->AB (but odd should give reverse? Actually pos3 odd gives AB not BA). Hmm.
+Found pattern! Rule 1: For each position i, output pair as (main[i], vice[i]) if (main_idx + vice_idx) is EVEN, else output (vice[i], main[i]). Check: For test 1 pos0: m_idx=0, v_idx=4, sum=4 (even) -> main+vice = AE matches! pos1: 1+3=4 even -> BD matches! pos3: 3+1=4 even -> DB matches! pos4: 4+0=4 even -> EA matches! Test 2: pos0: 0+1=1 odd -> vice+main = BA matches! Test 4: pos0: 0+1=1 odd -> BA matches! pos4: 4+0=4 even -> EA? Wait output is AE. Actually pos4: m_idx=4, v_idx=0, sum=4 even -> main+vice = EA but output is AE. Hmm mismatch. Let's recheck test 4 pos4: main=E, vice=A, output AE. Sum=4 even should give EA but output AE. So maybe opposite: output main+vice if sum is ODD? Let's test: pos4 sum=4 even -> should give vice+main = AE matches! So rule: output main+vice if (m_idx + v_idx) is ODD, else vice+main. Let's verify all tests.
+Rule 1: output main+vice if (m_idx + v_idx) is EVEN, else vice+main. Works for tests 1,2,3 but fails for tests 4 and 5. Let's examine failures: test 4 pos4: m_idx=4, v_idx=0, sum=4 even -> main+vice=EA but output AE. test 5 pos0: m_idx=0, v_idx=1, sum=1 odd -> vice+main=BA but output AB. So maybe rule also depends on position index? Let's check: test 4 pos4 is position 4 (even index). test 5 pos0 is position 0 (even index). Maybe combine position parity with sum parity?
+Looking at data: For test 1 (ABCDE,EDCBA): all positions give main+vice. idx_sum all 4 (even). For test 2 (AAAAB,BBBBC): all positions give vice+main. idx_sum mostly 1 or 3 (odd). For test 3 (ABCDE,ABCDE): all main+vice. idx_sum even. For test 4 (ABCDE,BCDEA): positions 0-3 give vice+main (idx_sum odd), position 4 gives vice+main (idx_sum even). For test 5 (AAABB,BBAAA): mixed. Need new approach. Maybe rule depends on comparison of main and vice letters? Let's check: When main < vice, what happens? Test 1 pos0: A<E, output AE (main+vice). Test 2 pos0: A<B, output BA (vice+main). Not consistent. Let's do more systematic test with simple inputs.
+Test 6: main=ABABA, vice=BABAB. rule_1: 'BAABBAABBA'. Let's analyze: positions: 0: (A,B)->BA (vice+main), 1: (B,A)->AB (main+vice), 2: (A,B)->BA, 3: (B,A)->AB, 4: (A,B)->BA. Pattern alternates! Position parity: even positions (0,2,4) give vice+main, odd positions (1,3) give main+vice. So rule depends on position parity! Let's check other tests with this hypothesis.
+Position parity alone doesn't work. Looking at test 6 pattern: even positions give vice+main, odd positions give main+vice EXCEPT position 4 gives vice+main (consistent). But test 1 shows different pattern. Let's examine test 1 more: positions 0,2,4 even: output AE, CC, EA. Are these vice+main or main+vice? pos0: AE is main+vice (A then E). pos2: CC is both. pos4: EA is vice+main (E then A). So not consistent parity rule. Maybe rule depends on whether main[i] == vice[i]? When equal, output main+vice (AA, BB, etc). When different, maybe something else. Let's analyze only positions where main != vice.
+Interesting! Hypothesis 'if main[i] < vice[i] then vice+main else main+vice' works for tests 2 and 3 but fails others. Looking at test 6: pos1: B>A (main>vice) should give main+vice=BA but output is AB (vice+main). So opposite! Maybe rule is: if main[i] < vice[i] then main+vice else vice+main? Test 6 pos0: A<B true -> main+vice=AB but output BA. No. Let's think differently. Maybe rule uses XOR of position parity and letter comparison? Let's test: For test 6, even positions (0,2,4) all give vice+main. Odd positions (1,3) all give vice+main too? Wait pos1 gives AB which is vice+main (A then B? Actually AB is main+vice? main=B, vice=A, AB is vice+main). So all positions give vice+main in test 6. But test 1 gives all main+vice. So maybe rule depends on overall sequence properties?
+Test 7: main=ABCDE, vice=AAAAB. rule_1: 'AABACADAEB'. Let's analyze: positions: 0: (A,A)->AA, 1: (B,A)->AB (main+vice), 2: (C,A)->AC (main+vice), 3: (D,A)->AD (main+vice), 4: (E,B)->EB (main+vice). All positions where main!=vice give main+vice. Compare to test 2 where all gave vice+main. Difference: test 2 had main letters mostly A, vice letters B/C. test 7 has main letters A-E, vice mostly A. Maybe rule depends on which sequence has 'higher' letters overall? Let's compute average letter index.
+Interesting! Hypothesis 'if main_avg >= vice_avg then all positions main+vice else vice+main' works for ALL tests except test 4 (ABCDE,BCDEA). Both have same average (2.0) but rule gives vice+main for all positions. So there's something special about test 4. Let's examine test 4: main=ABCDE, vice=BCDEA. Both sequences are permutations of ABCDE. Maybe rule depends on lexicographic comparison of the full sequences? Let's check: 'ABCDE' < 'BCDEA' alphabetically. So when main < vice lexicographically, output vice+main? Test 2: 'AAAAB' < 'BBBBC' true, output vice+main matches. Test 6: 'ABABA' < 'BABAB' true, output vice+main matches. Test 4: 'ABCDE' < 'BCDEA' true, output vice+main matches! Test 1: 'ABCDE' < 'EDCBA' true? Actually 'ABCDE' < 'EDCBA' is true (A<E). Output main+vice (opposite). Hmm. Test 7: 'ABCDE' > 'AAAAB' false, output main+vice matches if rule is opposite. Let's test hypothesis: if main sequence < vice sequence lexicographically, output vice+main, else main+vice.
+Mixed results. Test 1 (ABCDE,EDCBA): main<vice true, but output main+vice (opposite of hypothesis). Test 5 (AAABB,BBAAA): main<vice true, output main+vice (opposite). Test 2,4,6: main<vice true, output vice+main (matches). So inconsistent. Maybe rule depends on whether sequences are reverses of each other? Test 1 is reverse. Test 5 is not reverse but has pattern. Let's check: Test 1: reverse pairs. Test 4: shifted. Test 6: alternating. Need more systematic approach. Let's test rule 2 first since it might be simpler, then come back to rule 1.
+Rule 2 observations: 1) Output is always 20 chars, symmetric (first 10 chars = reverse of last 10 chars). 2) Each character from rule1 is transformed to another character. 3) Mapping seems to depend on the character's position in alphabet AND possibly its position in the sequence. For test 3 (ABCDE,ABCDE): A->H (+7), B->G (+5), C->F (+3), D->E (+1), E->D (-1). Pattern: shift = 9 - 2*index? A(index0): 9-0=9? Actually 7. B(index1): 9-2=7? Actually 5. Not simple. Let's compute: For letter L with index i (A=0,B=1,...), shift = 7 - 2*i? A:7-0=7 matches H. B:7-2=5 matches G. C:7-4=3 matches F. D:7-6=1 matches E. E:7-8=-1 matches D. Yes! shift = 7 - 2*i where i is alphabet index (0-4). Test with other data: For test 1, A->B (+1 not +7). So mapping varies. Maybe shift depends on something else like position in rule1 output or original sequences.
+Test 8: main=AAAAC, vice=AAAAD. rule_1: 'AAAAAAAADC'. Interesting! Positions 0-3: (A,A)->AA, position 4: (C,D)->DC. So for position 4: main=C, vice=D, output DC (vice+main). Main avg=0.4, vice avg=0.6, main<vice true. According to earlier hypothesis (main<vice -> vice+main), matches! But test 5 (AAABB,BBAAA) had main<vice true but gave main+vice. Difference: test 8 has main letters AAAA C, vice letters AAAA D. Very similar letters. Maybe rule has exception when sequences are very similar? Let's check test 2: main=AAAAB, vice=BBBBC - different letters, gives vice+main. Test 7: main=ABCDE, vice=AAAAB - different, gives main+vice (main>vice). Need more systematic approach.
+Key observations: 1) When sequences are reverses of each other (ABCDE,EDCBA and AAABB,BBAAA), rule gives M+V for all positions. 2) When sequences are identical, gives M+V. 3) When sequences are not reverses and not identical, sometimes gives V+M (tests 2,4,6). Test 8 is mixed: only position 4 (where letters differ) gives V+M, others M+V. Pattern: For positions where main[i]==vice[i], always M+V. For positions where main[i]!=vice[i], decision may depend on overall sequence relationship. Let's analyze only differing positions.
+Hypothesis works for all except test 7 (ABCDE,AAAAB). Test 7 is not reverse, not identical, but gives M+V for differing positions. Let's examine test 7: main=ABCDE, vice=AAAAB. Main has higher average (2.0 vs 0.2). Maybe rule: if main_avg > vice_avg then M+V, else V+M? Test 1: both avg 2.0 equal, reverse case M+V. Test 2: main_avg < vice_avg, V+M. Test 4: equal avg, not reverse, V+M. Test 5: equal avg, reverse, M+V. Test 6: main_avg < vice_avg, V+M. Test 7: main_avg > vice_avg, M+V. Test 8: main_avg < vice_avg, V+M. So hypothesis: For non-reverse, non-identical sequences: if main_avg > vice_avg then M+V, if main_avg < vice_avg then V+M, if equal then V+M? Test 4 has equal avg and V+M. But test 1 has equal avg and M+V (but reverse). So reverse overrides. Let's test.
+SUCCESS! Rule 1 hypothesis works for all 8 tests! Now need to verify with more tests. Let's test edge case: main_avg == vice_avg, not reverse. Should give V+M for differing positions. Let's create test.
+Test 9: main=ABCED, vice=BCDEA. Both permutations of ABCDE, not reverses. main_avg=vice_avg=2.0. rule_1: 'ABBCCDEEDA'. Let's check: positions: 0: (A,B)->AB (M+V), 1: (B,C)->BC (M+V), 2: (C,D)->CD (M+V), 3: (E,E)->EE, 4: (D,A)->DA (M+V). All M+V! Hypothesis predicted V+M for differing positions. So hypothesis wrong! Need to revise. Let's analyze: This is similar to test 4 (ABCDE,BCDEA) which gave V+M. Difference: test 4 main=ABCDE, test 9 main=ABCED. Both have same letters but different order. Maybe rule depends on lexicographic comparison after all? test 4: ABCDE < BCDEA true, gave V+M. test 9: ABCED < BCDEA true (A<B), gave M+V. So not that.
+Observations: Cases with sum diff=0 (equal total): sometimes M+V (tests 1,3,5,9), sometimes V+M (test 4). So not sum. Need different approach. Maybe rule depends on comparing sequences element-wise? Let's check test 4 vs test 9: both have same letters but test 4 gives V+M, test 9 gives M+V. Difference: test 4 main=ABCDE (sorted), test 9 main=ABCED (not sorted). Maybe rule: if main sequence is sorted ascending (ABCDE), then V+M? Test 1 main sorted but reverse case overrides. Test 3 main sorted, identical case. Test 5 main not sorted (AAABB), reverse case. Test 7 main sorted, M+V. Not consistent.
+Test 10: main=BACDE, vice=BCDEA. rule_1: 'BBCADCEDAE'. Decisions: pos0: (B,B)->BB M+V, pos1: (A,C)->CA V+M, pos2: (C,D)->DC V+M, pos3: (D,E)->ED V+M, pos4: (E,A)->AE V+M. Mixed! First position same letter gives M+V, others V+M. This is similar to test 8 pattern. So rule might be: For each position, if main[i]==vice[i] then M+V, else if main[i] < vice[i] then V+M else M+V? Let's test: pos1: A<C true, V+M matches. pos2: C<D true, V+M matches. pos3: D<E true, V+M matches. pos4: E>A false, V+M but should be M+V according to hypothesis. Actually E>A false (main>vice) should give M+V but output is V+M. So not that.
+Interesting! For test 10, positions 1-3 give reverse alphabetical order (CA, DC, ED), position 4 gives alphabetical order (AE). Position 0 same letter. So maybe rule: output the pair in reverse alphabetical order UNLESS the pair would be (vice,main) when vice < main? Actually for (E,A): alphabetical is AE, reverse is EA, output AE. So not consistent. Let's look at all tests systematically: maybe rule is: output the pair such that the first character is the maximum of the two? For (A,C): max is C, output CA (C first) yes. For (C,D): max D, output DC yes. For (D,E): max E, output ED yes. For (E,A): max E, output AE (E not first). So no.
+Need to step back and think systematically. We have 10 tests, rule 1 seems complex. Let's instead focus on discovering rule 2 which might be simpler, then rule 3-5, then come back to rule 1. From earlier analysis: rule 2 takes 10-char output from rule 1, produces 20-char symmetric output. Each character transformed. Let's analyze transformation pattern more carefully.
+Rule 2 analysis shows: 1) Output symmetric. 2) Transformation depends on both source letter AND position in r1. For example, A transforms to different letters at different positions. This suggests rule 2 might be: For each position i (0-9), apply shift = base_shift + i*? Or maybe uses a Caesar cipher with position-dependent shift. Let's compute shifts for each test to see pattern.
+Great! Analysis shows all (src,pos) pairs map to consistent shifts! So rule 2 has deterministic mapping: for each source letter A-E and position 0-9 in r1 output, there's a fixed shift. Let's extract the complete mapping table from the output.
+Rule 2 mapping extracted! It's a fixed lookup table: for each source letter (A-E) and position (0-9), there's a specific target letter. The mapping is consistent across all tests. Now need to understand rule 3, 4, 5. Let's examine how they transform sequences. Rule 3 seems to add characters at the end? Looking at test 1: rule2 output 20 chars, rule3 output 22 chars (added 'BB' at end?). Actually test 1: rule2 'BFCEDDECFBBFCEDDECFB' (20), rule3 'BFCEDDECFBBFCEDDECFBB' (22) - added 'B'? Wait same length? Let's check carefully.
+Observations: Rule 3 adds characters at the end. Number of added chars varies: test1 added 'B' (1 char?), test2 added 'EE' (2), test3 added 'GGG' (3), test4 added 'IIIII' (5), test5 added 'FFFFFF' (6), test6 added 'HHHHHH' (6), test7 added 'HHHHHHH' (7), test8 added 'IIIIIIII' (8), test9 added 'KKKKKKKKK' (9), test10 added 'LLLLLLLLLL' (10). Pattern: number of added chars = position of first differing letter? Or related to something else. Rule 4 and 5 modify specific positions, possibly based on letter values or positions.
+Rule 3 pattern: added length = first_diff + 1? Test1: first_diff=0, added_len=1 matches. Test2: first_diff=0, added_len=2 doesn't match. Test3: no differing positions (first_diff=-1), added_len=3. So not that. Added char is same as last char of r2? Test1: last_r2='B', added_char='B' matches. Test2: last_r2='D', added_char='E' doesn't match. Need more systematic approach. Let's examine rule 4 and 5 more carefully.
+Rules 4 and 5 are complex modifications. Need to step back. We have 41 steps remaining. Maybe we should try to deduce overall system by creating more systematic tests with simple inputs to isolate each rule. Let's design tests to understand rule 1 first, since it's foundational.
+Test 11: main=ABCDE, vice=AAAAC. rule_1: 'AABACADAEC'. Decisions: pos0: (A,A)->AA M+V, pos1: (B,A)->BA M+V, pos2: (C,A)->CA M+V, pos3: (D,A)->DA M+V, pos4: (E,C)->EC M+V. All M+V. Main avg=2.0, vice avg=0.4, main>vice. Consistent with earlier hypothesis that when main_avg > vice_avg, all M+V. Need to test case where main_avg < vice_avg but not reverse.
+Test 12: main=AAAAC, vice=ABCDE (swap of test 11). rule_1: 'AABACADAEC' SAME as test 11! So rule 1 is symmetric? main_avg=0.4, vice_avg=2.0, main<vice. Output same as when main>vice. So rule 1 doesn't depend on which sequence has higher average. Interesting! Let's check: For test 11 and 12, rule1 output identical. So rule 1 might be: output sorted pair (alphabetical) for each position? But test 11 pos1: (B,A) -> BA not AB. So not sorted. Wait BA is reverse alphabetical. So maybe rule: output pair in order of appearance in original sequences based on some condition.
+Key insight: Tests 11 and 12 show rule 1 produces same output when main and vice are swapped! So rule 1 is symmetric with respect to swapping sequences. That means decision (M+V vs V+M) for each position depends only on the UNORDERED pair {main[i], vice[i]}, not which sequence it came from. But we need to explain why (A,B) sometimes gives AB and sometimes BA. Let's collect all (A,B) cases across tests.
+Analysis shows: For position 0, (A,B) always gives BA (reverse alphabetical). For position 1, (A,B) gives AB (alphabetical) in some tests, BA in others. So not consistent by position alone. Need new approach. Given time constraints (38 steps left), maybe we should try to deduce the full system differently. We have rule 2 mapping table. Rule 3 adds chars. Rules 4-5 modify. Perhaps we can try to commit partial findings? But need to be confident. Let's test one more hypothesis: rule 1 might use XOR of letter indices mod 2.
+XOR hypothesis fails. Need different approach. Looking at all data, maybe rule 1 is actually simple: output the pair in alphabetical order of the CONCATENATED sequences? Or maybe rule uses the ORIGINAL input sequences to determine a global 'mode' that applies to all positions. Let's check: For tests where all positions give M+V: tests 1,3,5,7,9,11,12. For tests where all give V+M: tests 2,4,6. Mixed: tests 8,10. What distinguishes these groups?
+Interesting! Group analysis shows: All M+V cases include sequences that are permutations of each other (same letters) OR reverse pairs. All V+M cases are NOT permutations (different letter sets). Mixed cases are almost permutations but not quite (AAAAC vs AAAAD differ by one letter). So hypothesis: If sequences have exactly the same multiset of letters (permutations), then all positions M+V. If sequences are reverses, also M+V. If sequences have different letter sets, all V+M. If sequences differ by only one letter position, mixed. Need to test with new case.
+Test 13: main=AABBC, vice=ABBAC (permutations of AABBC). rule_1: 'AAABBBBACC'. All positions M+V! Confirms hypothesis: when sequences are permutations (same letters), all M+V. Now test case where sequences differ by more than one letter but not completely different sets.
+Test 14: main=AABBC, vice=ABBCC. Different letter sets (main has 2 A,2 B,1 C; vice has 1 A,2 B,2 C). rule_1: 'AABABBCBCC'. Decisions: pos0: (A,A)->AA M+V, pos1: (A,B)->AB M+V, pos2: (B,B)->BB M+V, pos3: (B,C)->CB V+M, pos4: (C,C)->CC M+V. Mixed! Not all V+M. So hypothesis needs refinement: When sequences have different letter multisets, might be mixed not all V+M. Need more systematic rule.
+Time is running (36 steps). We have partial understanding: Rule 2 mapping table complete. Rule 3 adds N chars at end where N seems related to something. Rules 4-5 modify specific positions. Rule 1 still elusive but we have many test cases. Maybe we should attempt to commit our findings with partial understanding? But risk of being wrong. Let's try one more systematic approach: brute force search for rule 1 pattern using all data we have.
+Analyzing rule_1 patterns:
+
+Test 1: (ABCDE, EDCBA) -> AEBDCCDBEA
+Positions: 
+0: A,E -> AE
+1: B,D -> BD  
+2: C,C -> CC
+3: D,B -> DB
+4: E,A -> EA
+
+Test 2: (AAAAB, BBBBC) -> BABABABACB
+0: A,B -> BA
+1: A,B -> BA
+2: A,B -> BA
+3: A,B -> BA
+4: B,C -> CB
+
+Test 3: (ABCDE, ABCDE) -> AABBCCDDEE
+0: A,A -> AA
+1: B,B -> BB
+2: C,C -> CC
+3: D,D -> DD
+4: E,E -> EE
+
+Test 4: (ABCDE, BCDEA) -> BACBDCEDAE
+0: A,B -> BA
+1: B,C -> CB
+2: C,D -> DC
+3: D,E -> ED
+4: E,A -> AE
+
+Test 5: (AAABB, BBAAA) -> ABABAABABA
+0: A,B -> AB
+1: A,B -> BA
+2: A,A -> AA
+3: B,A -> AB
+4: B,A -> BA
+
+Test 6: (ABABA, BABAB) -> BAABBAABBA
+0: A,B -> BA
+1: B,A -> AB
+2: A,B -> BA
+3: B,A -> AB
+4: A,B -> BA
+
+Test 7: (ABCDE, AAAAB) -> AABACADAEB
+0: A,A -> AA
+1: B,A -> AB
+2: C,A -> AC
+3: D,A -> AD
+4: E,B -> EB
+
+Looking for pattern: It seems like rule_1 outputs pairs. When main[i] == vice[i], output is double letter (AA, BB, etc). When main[i] != vice[i], output seems to be either main+vice or vice+main. Need to find rule for ordering.
+Current observations about rule_1:
+
+1. When main[i] == vice[i]: output is double letter (AA, BB, etc.)
+2. When main[i] != vice[i]: output is either main+vice or vice+main
+3. Pattern seems to depend on overall relationship between sequences:
+   - When sequences are identical: all double letters (main+vice)
+   - When vice is a rotation of main (BCDEA, CDEAB): all vice+main
+   - When main has "higher" letters than vice (ABCDE vs AAAAB): all main+vice
+   - When main has "lower" letters than vice (AAAAB vs BCDEA): mostly vice+main
+   - Mixed patterns in other cases
+
+Need to test more to find exact rule. Also need to analyze rules 2-5.
+
+Rule 2: Takes 10-char input, produces 20-char output that appears symmetric/repeated.
+Rule 3: Adds characters at end (seems to add letter based on something)
+Rule 4: Changes some characters
+Rule 5: Changes more characters
+
+Need more systematic testing.
+Need to analyze all rules, not just rule_1. Looking at transformation chains:
+
+For (ABCDE, EDCBA):
+rule_1: AEBDCCDBEA (10 chars)
+rule_2: PTQSRRSQTPPTQSRRSQTP (20 chars) - appears to be transformation of rule_1 output repeated
+rule_3: PTQSRRSQTPPTQSRRSQTPRRRRR (25 chars) - adds 'RRRRR' at end
+rule_4: PTRTTRSQTPPTQSRRSQTPRRRRR (25 chars) - changes some letters
+rule_5: PTRTTRSQTPPTQSRRSQTPRRRRR (25 chars) - no change
+
+For (AAAAB, BBBBC):
+rule_1: BABABABACB
+rule_2: RSQRQRQRQRRQRQRQRQSR (20 chars)
+rule_3: RSQRQRQRQRRQRQRQRQSRRRRRRR (27 chars) - adds 'RRRRRR'
+rule_4: RTSUURQRQRRQRQRQRQSRRRRRRR (27 chars)
+rule_5: RTSUURQRQRRQRQRQRQSRRRRRRR (27 chars)
+
+Patterns:
+- rule_2 doubles length from 10 to 20, seems to create symmetric pattern
+- rule_3 adds characters at end (number varies)
+- rule_4 changes some characters
+- rule_5 may or may not change characters
+
+Need to understand each rule systematically.
+Summary of discoveries:
+
+Rule 1: Forms pairs from main and vice sequences. Complex ordering rule that depends on global relationship between sequences, not just per-position comparison. Patterns observed:
+- Identical sequences: all main+vice (double letters)
+- Vice is rotation of main by 1 or 2: all vice+main
+- Vice is rotation by 3: all main+vice  
+- Vice is rotation by 4: mixed
+- Sequences very similar (differ in one position): main+vice
+- Sequences very different (all A's vs all B's): vice+main
+- Other cases show mixed patterns
+
+Rule 2: Creates symmetric output. Takes rule_1 output, applies character transformation, outputs transformed + reverse(transformed). Transformation varies:
+- Sometimes constant shift (e.g., +12, +15)
+- Sometimes decreasing shift (e.g., A:+21, B:+19, C:+17, etc.)
+- Shift may depend on input letter value or position
+
+Rule 3: Appends N copies of a character to end. Appended character is usually from rule_2 output. N varies (1-10 observed).
+
+Rule 4: Selective character replacements. Changes 1-3 characters.
+
+Rule 5: May apply additional changes or none.
+
+The system is complex with interdependent rules. More testing needed for exact formulations.
