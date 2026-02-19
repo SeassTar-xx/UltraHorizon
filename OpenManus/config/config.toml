@@ -1,6 +1,0 @@
-[llm]
-model = "Kimi-K2-Instruct"
-base_url = "..."
-api_key = "..."
-max_tokens=8192
-temperature = 0.3
