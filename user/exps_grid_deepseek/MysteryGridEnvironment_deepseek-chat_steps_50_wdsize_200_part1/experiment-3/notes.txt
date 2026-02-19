@@ -1,0 +1,197 @@
+Starting exploration. Initial position: (3,9,B). Energy: 20, Score: 0, Steps: 0. Nearby tiles: (1,7,D), (1,9,D), (3,7,A), (3,9,B), (5,7,C), (5,9,E). Need to discover effects of letters A-E. Will start by exploring current B tile.
+Step 1: Moved right from (3,9,B) to (4,9,E). Energy: 19, Score: -5. E tile gave -5 score. Need to check if this is consistent effect or depends on something.
+Step 2: Moved left back to (3,9,B). Energy: 18, Score: -2 (changed from -5 to -2). B tile gave +3 score? Wait, score went from -5 to -2, so +3. But initial B tile at start didn't give score change. Need to investigate B effect.
+Step 3: Moved down to (3,8,C). Energy: 17, Score: -1 (changed from -2 to -1). C tile gave +1 score.
+Step 4: Moved down to (3,7,A). Energy: 16, Score: -2 (changed from -1 to -2). A tile gave -1 score.
+Step 5: Moved left to (2,7,D). Energy: 15, Score: -1 (changed from -2 to -1). D tile gave +1 score.
+Current state: Position (2,7,X) - D tile changed to X after stepping. Energy: 15, Score: -1, Steps: 5. Nearby tiles show other letters. Need to explore more to understand patterns. Observations so far: E: -5, B: +3 (but not on first visit?), C: +1, A: -1, D: +1. Need more systematic exploration.
+Step 6: Moved right to (3,7,X) - previously A tile, now X. No score change. X tiles have no effect as expected.
+Step 7: Moved right to (4,7,A). Energy: 13, Score: -2 (changed from -1 to -2). A tile gave -1 score again. Consistent with previous A effect.
+Step 8: Moved up to (4,8,C). Energy: 12, Score: -2 (no change). C tile gave 0 score this time? Wait, score stayed at -2. Previous C gave +1. Need to investigate C effect more.
+Step 9: Moved up to (4,9,X) - previously E tile. No score change. X tiles have no effect.
+Step 10: Moved left to (3,9,X) - previously B tile. No score change. Energy: 10, Steps: 10. Need to explore new areas to find more letters.
+Nearby tiles: (1,7,D), (1,9,D), (5,7,C), (5,9,E). Need to explore these. Let's go to (1,7,D) first.
+Step 11: Moved left to (2,9,E). Energy: 9, Score: -9 (changed from -2 to -9). E tile gave -7 score this time! Previous E gave -5. So E effect is not consistent - maybe depends on something.
+Step 12: Moved left to (1,9,D). Energy: 18 (increased from 9 to 18!), Score: -11 (changed from -9 to -11). D tile gave +9 energy and -2 score. This is different from previous D which gave +1 score. So D effect is also not simple.
+Step 13: Moved down to (1,8,E). Energy: 17, Score: -18 (changed from -11 to -18). E tile gave -7 score again. So E seems to consistently give -7 score? First E gave -5, second gave -7, third gave -7. Maybe depends on something.
+Step 14: Moved down to (1,7,D). Energy: 16, Score: -17 (changed from -18 to -17). D tile gave +1 score this time, no energy change. So D effect varies: sometimes +1 score, sometimes +9 energy and -2 score.
+Step 15: Moved right to (2,7,X) - previously D tile. No effect. Energy: 15, Steps: 15. Need to explore more systematically. Let's check current state and plan.
+Nearby tiles: (0,5,D), (0,7,C), (0,9,A), (2,5,C), (4,5,A). Need to explore these. Let's go to (0,7,C) first to test C effect again.
+Step 17: Moved to (0,7,C). Energy: 13, Score: -16 (changed from -17 to -16). C tile gave +1 score. So C sometimes gives +1, sometimes 0. Need to find pattern.
+Step 18: Moved up to (0,8,D). Energy: 12, Score: -15 (changed from -16 to -15). D tile gave +1 score again. So D sometimes gives +1 score, sometimes +9 energy and -2 score.
+Step 19: Moved up to (0,9,A). Energy: 11, Score: -16 (changed from -15 to -16). A tile gave -1 score again. A seems consistent: always -1 score.
+Step 20: Moved down to (0,8,X) - previously D. No effect. Energy: 10, Steps: 20. Need to explore more. Let's go to (2,5,C) to test C again.
+Step 22: Moved to (2,8,C). Energy: 8, Score: -16 (no change). C tile gave 0 score again. So C sometimes +1, sometimes 0. Need to find pattern.
+Step 24: Moved to (2,6,B). Energy: 6, Score: -16 (no change). B tile gave 0 score this time. Previous B gave +3. So B also varies.
+Step 25: Moved to (2,5,C). Energy: 5, Score: -15 (changed from -16 to -15). C tile gave +1 score. So C gave +1 when energy is low (5).
+Step 26: Moved to (3,5,D). Energy: 14 (increased from 5 to 14!), Score: -17 (changed from -15 to -17). D tile gave +9 energy and -2 score. This matches previous D pattern when energy was low (9 before). So D gives +9 energy and -2 score when energy is low?
+Step 27: Moved to (4,5,A). Energy: 13, Score: -15 (changed from -17 to -15). Wait, score increased by +2? Actually from -17 to -15 is +2. But A previously gave -1. This is different! A gave +2 score this time.
+Step 28: Moved to (4,6,E). Energy: 12, Score: -17 (changed from -15 to -17). E tile gave -2 score. Previous E gave -5, -7, -7. So E also varies.
+Step 29: Moved to (4,7,X). No effect. Energy: 11, Steps: 29. One step left. Need to analyze patterns.
+Step 30: Moved to (5,7,C). Energy: 10, Score: -17 (no change). C gave 0 score. Game over at 30 steps. Need to analyze all observations.
+ANALYSIS NEEDED: Need to reset and conduct systematic experiments. Observations show patterns but not clear rules. Let me analyze: A: sometimes -1, sometimes +2. B: sometimes +3, sometimes 0. C: sometimes +1, sometimes 0. D: sometimes +1 score, sometimes +9 energy and -2 score. E: sometimes -5, -7, -2. Need to find triggers. Could be based on: energy level, step count, position coordinates, visit count, or combinations.
+RESET 1: New game. Initial position: (3,0,D). Energy: 20. Need systematic exploration. Let's first explore nearby tiles and record effects carefully.
+Nearby tiles: (1,0,C), (1,2,E), (3,2,A), (5,0,B), (5,2,B). Starting on D tile. Let's step on current D tile first to see effect.
+Step 1: Moved right to (4,0,D). Energy: 19, Score: 1. D tile gave +1 score. Starting energy was 20, so D gave +1 score when energy is high.
+Step 2: Moved right to (5,0,B). Energy: 18, Score: 4 (changed from 1 to 4). B tile gave +3 score. Energy 18, so B gave +3 when energy is moderate.
+Step 3: Moved up to (5,1,D). Energy: 17, Score: 5 (changed from 4 to 5). D tile gave +1 score again. Energy 17, still high.
+Step 4: Moved left to (4,1,C). Energy: 16, Score: 6 (changed from 5 to 6). C tile gave +1 score. Energy 16, moderate.
+Step 5: Moved left to (3,1,C). Energy: 15, Score: 6 (no change). C tile gave 0 score. Energy 15. So C gave 0 at energy 15, but gave +1 at energy 16. Need more data.
+Step 6: Moved left to (2,1,C). Energy: 14, Score: 7 (changed from 6 to 7). C tile gave +1 score. Energy 14. So C gave +1 at energy 14.
+Step 7: Moved left to (1,1,D). Energy: 13, Score: 8 (changed from 7 to 8). D tile gave +1 score. Energy 13, still giving +1 score.
+Step 8: Moved down to (1,0,C). Energy: 12, Score: 8 (no change). C tile gave 0 score. Energy 12.
+Step 9: Moved up to (1,1,X) - previously D. No effect. Energy: 11. Need to test D at lower energy to see if it gives energy boost.
+Step 10: Moved up to (1,2,E). Energy: 10, Score: 7 (changed from 8 to 7). E tile gave -1 score. Energy 10. Previous E gave -5, -7, -2. This is -1.
+Step 11: Moved right to (2,2,A). Energy: 9, Score: 6 (changed from 7 to 6). A tile gave -1 score. Energy 9. Previous A gave -1 and +2.
+Step 12: Moved right to (3,2,A). Energy: 8, Score: 8 (changed from 6 to 8). A tile gave +2 score! Energy 8. So A gave +2 at energy 8, but -1 at energy 9 and 16 before.
+CURRENT ANALYSIS FROM NOTES:
+From first game: 
+- A: gave -1 at energy 16, -1 at energy 13, -1 at energy 11, but +2 at energy 13 (contradiction? Actually A gave +2 at energy 13 in step 27 of first game)
+- B: gave +3 at energy 18, 0 at energy 6
+- C: gave +1 at energy 17, 0 at energy 12, +1 at energy 13, 0 at energy 8, +1 at energy 5, 0 at energy 10
+- D: gave +1 score at energy 15, +9 energy and -2 score at energy 9, +1 score at energy 16, +1 score at energy 12, +9 energy and -2 score at energy 5
+- E: gave -5 at energy 19, -7 at energy 9, -7 at energy 17, -2 at energy 12, -1 at energy 10
+
+From second game:
+- A: gave -1 at energy 9, +2 at energy 8
+- B: gave +3 at energy 18
+- C: gave +1 at energy 16, 0 at energy 15, +1 at energy 14, 0 at energy 12
+- D: gave +1 score at energy 20, +1 at energy 19, +1 at energy 17, +1 at energy 13
+- E: gave -1 at energy 10
+
+Patterns emerging:
+1. D seems to give +1 score when energy is above some threshold, and +9 energy + -2 score when energy is low
+2. C seems to give +1 score when energy is even? Let's check: 17(+1), 13(+1), 5(+1), 16(+1), 14(+1) - all odd except 16? Wait 17 odd, 13 odd, 5 odd, 16 even, 14 even. Not consistent.
+3. A gave +2 at energy 8 and 13, -1 at other energies
+4. B gave +3 at energy 18, 0 at energy 6
+5. E values vary: -5, -7, -2, -1
+
+Need more systematic testing. Let me continue current game to gather more data.
+Step 13 (continued): Moved up to (4,3,C). Energy: 6, Score: 8 (changed from 7 to 8). C tile gave +1 score at energy 6. So C gave +1 at energy 6. Previous C gave +1 at energy 5, 13, 14, 16, 17. C gave 0 at energy 8, 10, 12, 15. Need to find pattern.
+Step 14: Moved up to (4,4,A). Energy: 5, Score: 10 (changed from 8 to 10). A tile gave +2 score at energy 5. So A gave +2 at energy 5, 8, 13. A gave -1 at energy 9, 11, 13 (wait contradiction at energy 13), 16. Need to check if there's another factor.
+Step 15: Moved left to (3,4,D). Energy: 14 (increased from 5 to 14), Score: 8 (changed from 10 to 8). D tile gave +9 energy and -2 score at energy 5. This confirms D pattern: when energy ≤ 9, D gives +9 energy and -2 score. When energy > 9, D gives +1 score only.
+COMPREHENSIVE DATA ANALYSIS:
+
+D TILE OBSERVATIONS:
+1. Energy 20: +1 score (second game, step 1)
+2. Energy 19: +1 score (second game, step 1 on different D)
+3. Energy 17: +1 score (second game, step 3)
+4. Energy 16: +1 score (first game, step 14)
+5. Energy 15: +1 score (first game, step 5)
+6. Energy 13: +1 score (second game, step 7)
+7. Energy 12: +1 score (first game, step 18)
+8. Energy 9: +9 energy, -2 score (first game, step 12)
+9. Energy 5: +9 energy, -2 score (first game, step 26 AND current game step 15)
+
+PATTERN FOR D: When energy > 9: gives +1 score. When energy ≤ 9: gives +9 energy and -2 score.
+
+C TILE OBSERVATIONS:
+1. Energy 17: +1 score (first game, step 3)
+2. Energy 16: +1 score (second game, step 4)
+3. Energy 15: 0 score (second game, step 5)
+4. Energy 14: +1 score (second game, step 6)
+5. Energy 13: +1 score (first game, step 17)
+6. Energy 12: 0 score (second game, step 8 AND first game step 8)
+7. Energy 10: 0 score (first game, step 30)
+8. Energy 8: 0 score (first game, step 22)
+9. Energy 6: +1 score (current game, step 13)
+10. Energy 5: +1 score (first game, step 25)
+
+Looking at C pattern: +1 at energies: 17, 16, 14, 13, 6, 5. 0 at energies: 15, 12, 10, 8.
+This doesn't seem to be based on even/odd or simple threshold. Let me check if it's based on energy modulo something.
+
+A TILE OBSERVATIONS:
+1. Energy 16: -1 score (first game, step 4)
+2. Energy 13: -1 score (first game, step 7) AND +2 score (first game, step 27) - CONTRADICTION!
+3. Energy 11: -1 score (first game, step 19)
+4. Energy 9: -1 score (second game, step 11)
+5. Energy 8: +2 score (second game, step 12)
+6. Energy 5: +2 score (current game, step 14)
+
+B TILE OBSERVATIONS:
+1. Energy 18: +3 score (second game, step 2 AND first game step 2)
+2. Energy 6: 0 score (first game, step 24)
+
+E TILE OBSERVATIONS:
+1. Energy 19: -5 score (first game, step 1)
+2. Energy 17: -7 score (first game, step 13)
+3. Energy 12: -2 score (first game, step 28)
+4. Energy 10: -1 score (second game, step 10)
+5. Energy 9: -7 score (first game, step 11)
+
+Need to find patterns for A, B, C, E. The contradiction for A at energy 13 suggests there might be another factor besides energy.
+ANALYZING A TILE WITH COORDINATES:
+
+1. (3,7,A) at energy 16, step 4: -1 score (x=3, y=7, sum=10, even)
+2. (4,7,A) at energy 13, step 7: -1 score (x=4, y=7, sum=11, odd)
+3. (0,9,A) at energy 11, step 19: -1 score (x=0, y=9, sum=9, odd)
+4. (2,2,A) at energy 9, step 11: -1 score (x=2, y=2, sum=4, even)
+5. (3,2,A) at energy 8, step 12: +2 score (x=3, y=2, sum=5, odd)
+6. (4,5,A) at energy 13, step 27: +2 score (x=4, y=5, sum=9, odd)
+7. (4,4,A) at energy 5, step 14: +2 score (x=4, y=4, sum=8, even)
+
+No clear pattern with even/odd sum. Maybe it depends on step count? Let me check:
+
+-1 score at steps: 4, 7, 11, 19
++2 score at steps: 12, 14, 27
+
+Not clear either. Maybe it's based on energy being prime? Energy values for A:
+-1 score: 16, 13, 11, 9
++2 score: 8, 13, 5
+
+13 appears in both! So not prime-based.
+
+Maybe it's based on position relative to something? Or visit count? The contradiction at energy 13 could be because it was the second time visiting an A tile? Let me check visit counts.
+
+Actually, looking at C tile pattern more carefully: C gave +1 at energies: 17, 16, 14, 13, 6, 5. 0 at energies: 15, 12, 10, 8.
+This looks like C gives +1 when energy is NOT divisible by 4? Let me check:
+17 (not div by 4): +1
+16 (div by 4): +1 - contradicts
+14 (not div by 4): +1
+13 (not div by 4): +1
+15 (not div by 4): 0 - contradicts
+12 (div by 4): 0
+10 (not div by 4): 0 - contradicts
+8 (div by 4): 0
+6 (not div by 4): +1
+5 (not div by 4): +1
+
+Not consistent.
+
+Maybe C gives +1 when energy mod 3 = something? Let me check:
+17 mod 3 = 2: +1
+16 mod 3 = 1: +1
+15 mod 3 = 0: 0
+14 mod 3 = 2: +1
+13 mod 3 = 1: +1
+12 mod 3 = 0: 0
+10 mod 3 = 1: 0 - contradicts
+8 mod 3 = 2: 0 - contradicts
+6 mod 3 = 0: +1 - contradicts
+5 mod 3 = 2: +1
+
+Not consistent either.
+
+Let me think about B: only two observations: +3 at energy 18, 0 at energy 6.
+E: various negative scores: -5, -7, -2, -1.
+
+Maybe the effects are based on energy modulo something different for each letter?
+FINAL ANALYSIS BEFORE COMMIT:
+
+Based on my exploration, here's what I'm reasonably confident about:
+
+1. D: Clear pattern - When energy > 9: gives +1 score. When energy ≤ 9: gives +9 energy and -2 score.
+
+2. For other letters, patterns are less clear but I'll make educated guesses:
+
+A: Seems to give +2 score when energy is low (≤ 8?) and -1 when energy is high. But contradiction at energy 13 (both +2 and -1 observed). Maybe it's: gives +2 when energy < 10 AND energy is odd? 5(+2), 8(+2), 9(-1), 13(mixed). Or gives +2 when energy mod 4 = 0 or 1? Not sure.
+
+B: Only 3 observations: +3 at energy 18, 0 at energy 6. Maybe gives +3 when energy > 10, 0 otherwise.
+
+C: Complex pattern. Maybe gives +1 when energy mod 3 ≠ 0? But has exceptions.
+
+E: Various negative values. Maybe gives negative of (energy mod 8)? Or just random negative?
+
+I need to commit something. Given the strict requirements, I should only commit what I'm sure about. But I must commit for all letters.
+
+Given D is clear, and for others I have some patterns, I'll make my best guess:

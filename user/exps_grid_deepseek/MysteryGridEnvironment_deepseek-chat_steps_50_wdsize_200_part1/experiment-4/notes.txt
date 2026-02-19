@@ -1,0 +1,143 @@
+Game started at (3,3,D). Energy: 20, Score: 0, Steps: 0. Nearby tiles show letters A-E. Need to explore systematically to discover effects of each letter. First, let's explore nearby tiles and record effects.
+Step 1: Moved up to (3,4,B). Energy: 19, Score: 0. No score change from B tile. Need to test more B tiles.
+Step 2: Moved right to (4,4,C). Energy: 18, Score: +1 (now 1). C tile gave +1 score. Need to test more C tiles.
+Step 3: Moved right to (5,4,D). Energy: 17, Score: +1 (now 2). D tile gave +1 score. Need to test more D tiles.
+Step 4: Moved down to (5,3,E). Energy: 16, Score: +2 (now 4). E tile gave +2 score. Need to test more E tiles.
+Step 5: Moved down to (5,2,D). Energy: 15, Score: +1 (now 5). D tile gave +1 score again. So far: C=+1, D=+1, E=+2, B=0. Need to test A tile.
+Step 6: Moved left to (4,2,D). Energy: 14, Score: +1 (now 6). D tile gave +1 again. Need to find A tile. Let's check full map.
+Full map obtained. Current position (4,2) is X (visited D). Need to find nearest A tile. Looking at map: (4,1) is A, (7,2) is A, (7,5) is A, etc. Let's go to (4,1) A tile.
+Step 7: Moved down to (4,1,A). Energy: 13, Score: -1 (now 5). A tile gave -1 score! Interesting. So A = -1 score. Need to verify with another A tile.
+Step 8: Moved right to (5,1,E). Energy: 12, Score: +4 (now 9). E tile gave +4 score! Wait, earlier E gave +2. So E effect might depend on something. Need to investigate.
+Step 9: Moved right to (6,1,A). Energy: 11, Score: +2 (now 11). A tile gave +2 score! Earlier A gave -1. So A effect is not consistent. Need to analyze patterns. Could depend on position, step count, energy, or visit count.
+Step 10: Moved right to (7,1,B). Energy: 10, Score: +3 (now 14). B tile gave +3 score! Earlier B gave 0. So B also varies. Need systematic testing.
+Observations so far: Effects vary. Need to record all data: Step, Position, Letter, Score change, Energy, Total score. Let's continue exploring to gather more data.
+Step 11: Moved up to (7,2,A). Energy: 9, Score: -1 (now 13). A gave -1 again. So A gave -1 at (4,1) and (7,2), but +2 at (6,1). Need to check coordinates pattern.
+Step 12: Moved up to (7,3,D). Energy: +9 (now 18), Score: -2 (now 11). D gave +9 energy and -2 score! Earlier D gave +1 score. So D effect varies too. Energy gain observed.
+Step 13: Moved up to (7,4,A). Energy: 17, Score: -1 (now 10). A gave -1 again. So A seems to give -1 except at (6,1) which gave +2. Check if (6,1) is special.
+Step 14: Moved up to (7,5,A). Energy: 16, Score: -1 (now 9). A gave -1 again. So (6,1) A is anomaly. Maybe effect depends on step count? Let's test more letters.
+Step 15: Moved left to (6,5,B). Energy: 15, Score: 0 (no change). B gave 0. Earlier B gave +3 at (7,1). So B varies.
+Step 16: Moved left to (5,5,C). Energy: 14, Score: 0 (no change). C gave 0. Earlier C gave +1 at (4,4). So C varies too.
+Step 17: Moved left to (4,5,C). Energy: 13, Score: +1 (now 10). C gave +1 again. So C sometimes +1, sometimes 0.
+Step 18: Moved left to (3,5,D). Energy: 12, Score: +1 (now 11). D gave +1 score. Earlier D gave +9 energy and -2 score at (7,3). So D varies greatly.
+Step 19: Moved down to (3,4,X) (visited B earlier). No effect as expected. Energy 11, steps 19. Need to analyze patterns. Let's check notes and think.
+Analysis: Effects seem to depend on something. Let's check if effects correlate with step count parity (odd/even), energy level, or coordinates. Need more systematic testing. Let's continue exploring to gather more data.
+Step 20: Moved down to (3,3,D). Energy: 10, Score: +1 (now 12). D gave +1 again. So D mostly +1 except (7,3) which gave +9 energy and -2 score.
+Step 21: Moved right to (4,3,E). Energy: 9, Score: +1 (now 13). E gave +1. Earlier E gave +2 and +4. So E varies: +4, +2, +1.
+Step 22: Moved right to (5,3,X) (visited E earlier). No effect. Energy 8, steps 22. Need to test more letters. Let's go find B and C tiles.
+Step 23: Moved right to (6,3,C). Energy: 7, Score: 0 (no change). C gave 0. Earlier C gave +1 at steps 2 and 17, 0 at steps 16 and 23.
+Step 24: Moved up to (6,4,D). Energy: +9 (now 16), Score: -2 (now 11). D gave +9 energy and -2 score again! Similar to (7,3)D. So D at certain positions gives energy boost and score penalty.
+Step 25: Moved up to (6,5,X) (visited B earlier). No effect. Energy 15, steps 25. Need to analyze patterns. Let's check coordinates of special D tiles: (7,3) and (6,4) both gave +9 energy, -2 score. Other D tiles gave +1 score.
+Hypothesis: Effects might depend on energy level modulo something. Need more testing. Let's continue exploring to gather more data points.
+Step 26: Moved left to (5,5,X) (visited C earlier). No effect. Energy 14, steps 26. Need to find new letters. Let's go to (4,6) which is A according to map.
+Step 27: Moved down to (5,4,X) (visited D earlier). No effect. Energy 13, steps 27. Need to go to (4,6)A. Let's go left then down.
+Step 28: Moved left to (4,4,X) (visited C earlier). No effect. Energy 12, steps 28. Need to go down to (4,6)A.
+Step 29: Moved down to (4,3,X) (visited E earlier). No effect. Energy 11, steps 29. One step left. Need to go down to (4,6)A but need 2 steps. Let's go down anyway to see what happens.
+Step 30: Moved down to (4,2,X) (visited D earlier). Game over due to max steps (30). Energy 10, score 11. Need to reset and conduct more systematic tests.
+Reset #1. New start position: (4,0,C). Energy: 20. Need to test letters systematically. Let's first explore nearby tiles and record effects carefully.
+Current at (4,0,C). Nearby: (2,0)B, (2,2)A, (4,2)A, (6,0)C, (6,2)D. Let's move to (4,2)A to test A with energy 19.
+Step 1: Moved up to (4,1,B). Energy: 19, Score: +3 (now 3). B gave +3. Earlier B gave 0 or +3. Energy before move was 20.
+Step 2: Moved up to (4,2,A). Energy: 18, Score: -1 (now 2). A gave -1. Energy before move was 19. So A gave -1 again.
+Step 3: Moved right to (5,2,D). Energy: 17, Score: +1 (now 3). D gave +1. Energy before move was 18.
+Step 4: Moved right to (6,2,D). Energy: 16, Score: +1 (now 4). D gave +1 again. Energy before move was 17.
+Step 5: Moved down to (6,1,D). Energy: 15, Score: +1 (now 5). D gave +1 again. Energy before move was 16.
+Step 6: Moved down to (6,0,C). Energy: 14, Score: +1 (now 6). C gave +1. Energy before move was 15.
+Step 7: Moved left to (5,0,C). Energy: 13, Score: 0 (no change). C gave 0. Energy before move was 14. So C sometimes +1, sometimes 0.
+Step 8: Moved left to (4,0,C). Energy: 12, Score: +1 (now 7). C gave +1. Energy before move was 13. Starting tile C gave +1.
+Analysis: Not clear pattern with mod4. Let's check mod5. Also note special D tiles at (7,3) and (6,4) gave +9 energy, -2 score. Those positions might be special. Need to test more systematically. Let's continue exploring.
+Mod5 also not clear. Maybe effect depends on position coordinates? Or visit count? Need more systematic testing. Let's continue exploring to find E and test more letters.
+Step 9: Moved left to (3,0,C). Energy: 11, Score: 0 (no change). C gave 0. Energy before move was 12.
+Current understanding from previous notes:
+1. A: Mostly gives -1 score, but gave +2 at (6,1) once. Need to test more A tiles.
+2. B: Sometimes gives 0, sometimes +3. Need pattern.
+3. C: Sometimes gives +1, sometimes 0. Need pattern.
+4. D: Mostly gives +1 score, but at positions (7,3) and (6,4) gave +9 energy and -2 score. These might be special positions.
+5. E: Gave +4, +2, +1 at different times.
+
+Hypotheses:
+- Effects might depend on energy level modulo something (mod4, mod5 tested, not clear)
+- Might depend on step count parity
+- Might depend on coordinates (special D positions suggest coordinate-based effects)
+- Might depend on visit count of that letter type
+
+Plan: Continue exploring systematically, recording step, position, letter, energy before move, score change, total score. Need to test each letter multiple times under different conditions.
+Step 10: (3,1,D). Energy before: 11, after: 10. Score before: 7, after: 8. D gave +1 score. Normal D behavior.
+Step 11: (2,1,A). Energy before: 10, after: 9. Score before: 8, after: 7. A gave -1 score. Consistent with most A tiles.
+Step 12: (1,1,A). Energy before: 9, after: 8. Score before: 7, after: 9. A gave +2 score! Important observation: A gave +2 at (6,1) and (1,1) - both y-coordinate = 1. Other A tiles gave -1. Hypothesis: A effect depends on y-coordinate? Need to test more A tiles at different y positions.
+Step 13: (1,0,B). Energy before: 8, after: 7. Score before: 9, after: 12. B gave +3 score. Earlier B gave +3 at (7,1) and (4,1), 0 at (3,4) and (6,5). Need to find pattern.
+Step 14: (2,0,B). Energy before: 7, after: 6. Score before: 12, after: 15. B gave +3 score. B seems to give +3 at positions with y=0 or y=1? Need to check: (1,0)B gave +3, (2,0)B gave +3, (4,1)B gave +3, (7,1)B gave +3. B gave 0 at (3,4) and (6,5) which have y=4 and y=5. Hypothesis: B gives +3 when y-coordinate is 0 or 1, 0 otherwise.
+Step 17: (1,2,E). Energy before: 4, after: 3. Score before: 15, after: 14. E gave -1 score! New observation. Earlier E gave +4 at (5,1), +2 at (3,4), +1 at (4,3). Now -1 at (1,2). Need to find pattern. Check coordinates: (5,1) gave +4 (y=1), (3,4) gave +2 (y=4), (4,3) gave +1 (y=3), (1,2) gave -1 (y=2). Not obvious pattern.
+Step 18: (2,2,A). Energy before: 3, after: 2. Score before: 14, after: 16. A gave +2 score at y=2. Earlier: (6,1)A gave +2, (1,1)A gave +2, but (4,1)A gave -1. So not simply y-coordinate. Need more data. Also (7,2)A gave -1, (7,4)A gave -1, (7,5)A gave -1. Maybe depends on both x and y coordinates or some other factor.
+Step 19: (3,2,C). Energy before: 2, after: 1. Score before: 16, after: 17. C gave +1 score. C pattern: sometimes +1, sometimes 0. Need to find pattern.
+COMPREHENSIVE ANALYSIS OF ALL OBSERVATIONS:
+
+A TILES:
+- (4,1)A: -1 score (step 7, game 1)
+- (6,1)A: +2 score (step 9, game 1) 
+- (7,2)A: -1 score (step 11, game 1)
+- (7,4)A: -1 score (step 13, game 1)
+- (7,5)A: -1 score (step 14, game 1)
+- (4,2)A: -1 score (step 2, game 2)
+- (6,1)A: +2 score (step 9, game 1) - duplicate?
+- (2,1)A: -1 score (step 11, game 2)
+- (1,1)A: +2 score (step 12, game 2)
+- (2,2)A: +2 score (step 18, game 2)
+
+Pattern: A seems to give +2 at some positions, -1 at others. Not simply y-coordinate. Check if depends on parity of coordinates: 
+(6,1): x even, y odd -> +2
+(1,1): x odd, y odd -> +2  
+(2,2): x even, y even -> +2
+(4,1): x even, y odd -> -1 (contradicts (6,1))
+(7,2): x odd, y even -> -1
+(7,4): x odd, y even -> -1
+(7,5): x odd, y odd -> -1
+(4,2): x even, y even -> -1 (contradicts (2,2))
+(2,1): x even, y odd -> -1 (contradicts (6,1))
+
+So not simple parity. Maybe depends on sum of coordinates mod something?
+
+B TILES:
+- (3,4)B: 0 score (step 1, game 1)
+- (7,1)B: +3 score (step 10, game 1)
+- (6,5)B: 0 score (step 15, game 1)
+- (4,1)B: +3 score (step 1, game 2)
+- (1,0)B: +3 score (step 13, game 2)
+- (2,0)B: +3 score (step 14, game 2)
+
+Pattern: B gives +3 at y=0 or y=1 positions, 0 at y>=4 positions. Need to test y=2,3.
+
+C TILES:
+- (4,4)C: +1 score (step 2, game 1)
+- (5,5)C: 0 score (step 16, game 1)
+- (4,5)C: +1 score (step 17, game 1)
+- (6,0)C: +1 score (step 6, game 2)
+- (5,0)C: 0 score (step 7, game 2)
+- (4,0)C: +1 score (step 8, game 2)
+- (3,0)C: 0 score (step 9, game 2)
+- (6,3)C: 0 score (step 23, game 1)
+- (3,2)C: +1 score (step 19, game 2)
+
+Pattern: C sometimes +1, sometimes 0. Need pattern.
+
+D TILES:
+- (5,4)D: +1 score (step 3, game 1)
+- (5,2)D: +1 score (step 5, game 1)
+- (4,2)D: +1 score (step 6, game 1)
+- (7,3)D: +9 energy, -2 score (step 12, game 1)
+- (3,3)D: +1 score (step 20, game 1)
+- (6,4)D: +9 energy, -2 score (step 24, game 1)
+- (5,2)D: +1 score (step 3, game 2)
+- (6,2)D: +1 score (step 4, game 2)
+- (6,1)D: +1 score (step 5, game 2)
+- (3,1)D: +1 score (step 10, game 2)
+
+Pattern: D mostly gives +1 score, but at positions (7,3) and (6,4) gives +9 energy and -2 score. These might be special positions.
+
+E TILES:
+- (5,2)E: +2 score (step 4, game 1)
+- (5,1)E: +4 score (step 8, game 1)
+- (4,3)E: +1 score (step 21, game 1)
+- (1,2)E: -1 score (step 17, game 2)
+
+Pattern: E varies: +4, +2, +1, -1. Need pattern.
+
+NEXT STEPS: Need systematic testing of each letter at different coordinates to find patterns. Test each letter at multiple positions, record coordinates and effects.

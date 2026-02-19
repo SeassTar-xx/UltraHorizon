@@ -1,0 +1,81 @@
+Starting exploration. Initial position: (4,9,D). Energy: 20, Score: 0, Steps: 0. Nearby tiles show A, D, E letters. Need to explore systematically to discover effects of each letter (A-E).
+Full map obtained. Need to plan exploration strategy. First, let's move to nearby A tile at (2,7) to test A effect. Then systematically test each letter type.
+Step 1: Moved left to (3,9,E). Energy: 19, Score: -6. E tile gave -6 score. Need to test E again to see if consistent.
+Step 2: Moved left to (2,9,E). Energy: 18, Score: -13 (changed from -6 to -13, so -7 change). Second E gave -7 score. So E effect might be: -6 on first visit, -7 on second? Or maybe depends on something else.
+Step 3: Moved left to (1,9,E). Energy: 17, Score: -21 (changed from -13 to -21, so -8 change). Third E gave -8 score. Pattern: E effect seems to be decreasing by -1 each time? First: -6, second: -7, third: -8. Could be based on visit count to E tiles.
+Step 4: Moved left to (0,9,D). Energy: 16, Score: -20 (changed from -21 to -20, so +1 change). D tile gave +1 score. First D test.
+Step 5: Moved down to (0,8,A). Energy: 15, Score: -21 (changed from -20 to -21, so -1 change). A tile gave -1 score. First A test.
+Step 6: Moved right to (1,8,C). Energy: 14, Score: -20 (changed from -21 to -20, so +1 change). C tile gave +1 score. First C test.
+Step 7: Moved right to (2,8,B). Energy: 13, Score: -17 (changed from -20 to -17, so +3 change). B tile gave +3 score. First B test.
+Step 8: Moved right to (3,8,D). Energy: 12, Score: -16 (changed from -17 to -16, so +1 change). Second D tile gave +1 score. Consistent with first D.
+Step 9: Moved right to (4,8,E). Energy: 11, Score: -20 (changed from -16 to -20, so -4 change). Fourth E tile gave -4 score. Pattern continues: first E: -6, second: -7, third: -8, fourth: -4? Wait, that breaks pattern. Maybe not simple visit count. Need more testing.
+Step 10: Moved right to (5,8,D). Energy: 10, Score: -19 (changed from -20 to -19, so +1 change). Third D tile gave +1 score. D seems consistently +1.
+Step 11: Moved down to (5,7,C). Energy: 9, Score: -19 (no change). Second C tile gave 0 score. Different from first C which gave +1. Need more C tests.
+Step 12: Moved down to (5,6,A). Energy: 8, Score: -17 (changed from -19 to -17, so +2 change). Second A tile gave +2 score. Different from first A which gave -1. So A effect varies.
+Step 13: Moved left to (4,6,E). Energy: 7, Score: -19 (changed from -17 to -19, so -2 change). Fifth E tile gave -2 score. E pattern: -6, -7, -8, -4, -2. Not linear. Could be based on energy level or step count.
+Step 14: Moved left to (3,6,D). Energy: 16 (changed from 7 to 16, so +9 energy!), Score: -21 (changed from -19 to -21, so -2 change). D tile gave +9 energy and -2 score. This is different! Previous D tiles gave +1 score only. So D effect varies too. Need to analyze conditions.
+Step 15: Moved left to (2,6,D). Energy: 15 (changed from 16 to 15, so -1 energy), Score: -20 (changed from -21 to -20, so +1 change). D tile gave -1 energy and +1 score. Another different D effect. So D effect depends on something.
+Step 16: Moved down to (2,5,A). Energy: 14, Score: -21 (changed from -20 to -21, so -1 change). Third A tile gave -1 score. A effects: -1, +2, -1. Not consistent.
+Step 17: Moved right to (3,5,A). Energy: 13, Score: -22 (changed from -21 to -22, so -1 change). Fourth A tile gave -1 score. A effects: -1, +2, -1, -1.
+Step 18: Moved right to (4,5,C). Energy: 12, Score: -21 (changed from -22 to -21, so +1 change). Third C tile gave +1 score. C effects: +1, 0, +1.
+Step 19: Moved right to (5,5,A). Energy: 11, Score: -22 (changed from -21 to -22, so -1 change). Fifth A tile gave -1 score. A effects: -1, +2, -1, -1, -1.
+Step 20: Moved right to (6,5,A). Energy: 10, Score: -23 (changed from -22 to -23, so -1 change). Sixth A tile gave -1 score. A effects mostly -1 except one +2.
+Step 21: Moved down to (6,4,B). Energy: 9, Score: -23 (no change). Second B tile gave 0 score. Different from first B which gave +3.
+Step 22: Moved left to (5,4,B). Energy: 8, Score: -23 (no change). Third B tile gave 0 score. B effects: +3, 0, 0.
+Step 23: Moved left to (4,4,B). Energy: 7, Score: -23 (no change). Fourth B tile gave 0 score. B seems to give +3 only on first visit, then 0.
+Step 24: Moved down to (4,3,D). Energy: 16 (changed from 7 to 16, so +9 energy), Score: -25 (changed from -23 to -25, so -2 change). D tile gave +9 energy and -2 score again. Similar to step 14. Both times when energy was low (7), D gave +9 energy and -2 score.
+Step 25: Moved right to (5,3,B). Energy: 15, Score: -25 (no change). Fifth B tile gave 0 score. Confirms B gives +3 only on first visit.
+Step 26: Moved right to (6,3,A). Energy: 14, Score: -26 (changed from -25 to -26, so -1 change). Seventh A tile gave -1 score. A mostly gives -1.
+Step 27: Moved right to (7,3,D). Energy: 13 (changed from 14 to 13, so -1 energy), Score: -25 (changed from -26 to -25, so +1 change). D tile gave -1 energy and +1 score. This is the third type of D effect: when energy is moderate (14), D gives -1 energy and +1 score.
+Step 28: Moved up to (7,4,E). Energy: 12, Score: -22 (changed from -25 to -22, so +3 change). Sixth E tile gave +3 score. E pattern: -6, -7, -8, -4, -2, +3. Very irregular. Could be based on position or step count.
+Step 29: Moved up to (7,5,D). Energy: 11 (changed from 12 to 11, so -1 energy), Score: -21 (changed from -22 to -21, so +1 change). D tile gave -1 energy and +1 score. Consistent with moderate energy D effect.
+Step 30: Moved up to (7,6,C). Energy: 10, Score: -21 (no change). Fourth C tile gave 0 score. Game over at 30 steps. Summary: Need to reset and test more systematically. Observations so far: B gives +3 on first visit only. D has different effects based on energy level: low energy (7) gives +9 energy and -2 score, moderate energy gives -1 energy and +1 score. A mostly gives -1 score but once gave +2. C gives +1 or 0. E varies widely.
+Reset 1: New starting position (2,7,E). Need to test systematically. Let's test B first to confirm first-visit +3 effect. Then test D at different energy levels. Need to track step count, energy, position for each letter.
+Nearby tiles show B at (4,5) and (4,7). Let's go to B first.
+Step 1: Moved right to (3,7,B). Energy: 19, Score: 0 (no change). Wait, B didn't give +3! Different from previous game. So B effect is not simply first-visit +3. Need to reconsider.
+Step 2: Moved right to (4,7,B). Energy: 18, Score: 0 (no change). Second B also 0. So B effect is different this game. Maybe effects depend on something global like step count or reset count.
+Step 3: Moved down to (4,6,C). Energy: 17, Score: 1 (changed from 0 to 1, so +1 change). C gave +1 score. Consistent with previous C effects.
+Step 4: Moved down to (4,5,B). Energy: 16, Score: 1 (no change). Third B gave 0. So B consistently 0 this game.
+Step 5: Moved left to (3,5,D). Energy: 15 (changed from 16 to 15, so -1 energy), Score: 2 (changed from 1 to 2, so +1 change). D gave -1 energy and +1 score. Consistent with moderate energy D effect (energy was 16).
+Step 6: Moved left to (2,5,E). Energy: 14, Score: -1 (changed from 2 to -1, so -3 change). E gave -3 score. Different from previous E values.
+Step 7: Moved down to (2,4,D). Energy: 13 (changed from 14 to 13, so -1 energy), Score: 0 (changed from -1 to 0, so +1 change). D gave -1 energy and +1 score. Consistent moderate energy D.
+Step 8: Moved down to (2,3,B). Energy: 12, Score: 0 (no change). Fourth B gave 0. B consistently 0.
+Step 9: Moved left to (1,3,A). Energy: 11, Score: 2 (changed from 0 to 2, so +2 change). A gave +2 score. Second time seeing A give +2. So A sometimes gives +2, sometimes -1.
+Step 10: Moved down to (1,2,E). Energy: 10, Score: 1 (changed from 2 to 1, so -1 change). E gave -1 score.
+Step 11: Moved down to (1,1,C). Energy: 9, Score: 1 (no change). C gave 0 score. Second C gave 0, consistent with previous C pattern.
+Step 12: Moved down to (1,0,B). Energy: 8, Score: 4 (changed from 1 to 4, so +3 change). B gave +3 score! This is the first B that gave +3 this game. So B effect is not consistent across resets. Maybe B gives +3 only at certain positions or step counts.
+Step 13: Moved right to (2,0,C). Energy: 7, Score: 5 (changed from 4 to 5, so +1 change). C gave +1 score. Third C gave +1.
+Step 14: Moved right to (3,0,A). Energy: 6, Score: 4 (changed from 5 to 4, so -1 change). A gave -1 score. So A gives -1 or +2.
+Current understanding from previous exploration:
+1. B: In first game, gave +3 on first visit only. In second game, gave 0 mostly but +3 at (1,0). So B effect may depend on position or step count.
+2. D: Shows different effects based on energy level: 
+   - Low energy (7) gives +9 energy and -2 score (observed twice)
+   - Moderate energy (12-16) gives -1 energy and +1 score (observed multiple times)
+   - High energy? Not tested yet.
+3. A: Mostly gives -1 score, but sometimes +2 (observed twice)
+4. C: Gives +1 or 0 score, no energy effect observed
+5. E: Varies widely: -6, -7, -8, -4, -2, +3, -3, -1 observed
+
+Need systematic testing. Current position: (4,0,X), energy 15, score 2, step 15. Let's explore nearby D at (4,2) to test D effect at energy 15.
+Step 16: Moved to (5,0,D). Energy: 14 (was 15, so -1), Score: 3 (was 2, so +1). D effect at energy 15: -1 energy, +1 score. Consistent with moderate energy pattern.
+Step 17: Moved to (6,0,C). Energy: 13 (move cost -1), Score: 3 (unchanged). C gave 0 effect. C pattern: sometimes +1, sometimes 0.
+Step 18: Moved to (7,0,B). Energy: 12 (move cost -1), Score: 6 (was 3, so +3). B gave +3 score. This is the second B giving +3 in this game (first was at (1,0) at step 12). Need to analyze pattern: both at y=0 (bottom row)? Both at step 12 and 18? Need more B tests.
+Step 19: Moved to (8,0,E). Energy: 11 (move cost -1), Score: 14 (was 6, so +8). E gave +8 score! This is largest positive E effect seen. Previous E effects: -6, -7, -8, -4, -2, +3, -3, -1. So E varies widely. Could be based on position, step count, or something else.
+Step 20: Moved to (9,0,A). Energy: 10 (move cost -1), Score: 13 (was 14, so -1). A gave -1 score. Consistent with most common A effect.
+Final analysis before commit:
+1. D: Clear energy-based effect: if energy < 10, then +9 energy and -2 score; if energy >= 10, then -1 energy and +1 score.
+2. B: Seems to give +3 score when at bottom row (y=0), otherwise 0. Observed: (1,0) and (7,0) gave +3, other B tiles gave 0.
+3. A: Mostly gives -1 score, but sometimes +2. Could be based on position parity or step count. Not clear.
+4. C: Gives +1 or 0. Could be alternating or based on something.
+5. E: Very variable. Could be based on step count modulo something.
+
+Need to commit with specific rules. Best guesses:
+- D: Energy-based as above
+- B: +3 when y=0, else 0
+- A: -1 score always (the +2 might be anomaly or different rule)
+- C: +1 on first C visit each game, then 0
+- E: Effect = -(step_count % 10) (but doesn't match all data)
+
+Actually, looking at E: steps 1,2,3 gave -6,-7,-8 (close to -step-5). Step 9 gave -4 (not -14). Step 13 gave -2 (not -18). Step 28 gave +3. Step 6 (second game) gave -3. Step 10 gave -1. Step 19 gave +8.
+
+Too complex. Need to commit anyway.
