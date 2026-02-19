@@ -1,0 +1,8 @@
+2026-02-17 11:10:25.751 | INFO     | app.agent.base:run:140 - Executing step 1/200
+2026-02-17 11:10:47.240 | INFO     | app.agent.base:run:140 - Executing step 1/200
+2026-02-17 11:13:22.911 | INFO     | app.tool.mcp:disconnect:194 - Disconnected from all MCP servers
+2026-02-17 11:13:22.911 | INFO     | app.tool.mcp:disconnect:194 - Disconnected from all MCP servers
+2026-02-17 11:13:22.985 | INFO     | app.agent.base:run:140 - Executing step 1/200
+2026-02-17 11:13:22.986 | INFO     | app.agent.base:run:140 - Executing step 1/200
+2026-02-17 11:13:24.895 | INFO     | app.tool.mcp:disconnect:194 - Disconnected from all MCP servers
+2026-02-17 11:13:24.895 | INFO     | app.tool.mcp:disconnect:194 - Disconnected from all MCP servers
