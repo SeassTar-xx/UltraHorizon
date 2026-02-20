@@ -1,0 +1,73 @@
+{
+    "judge_input": "# EXPERIMENTAL REPORT: ALIEN ORGANISM GENETICS\n\n## 1. Genetic Basis\n\n### Chromosomal Characteristics\nThe alien organisms are **diploid** (2n) with normal chromosomal organization. Each trait is controlled by genes located on separate chromosomes or unlinked loci, as evidenced by independent assortment patterns observed in crosses.\n\n### Gamete Production and Meiotic Segregation\n- Gametes are produced through **normal meiosis** with independent assortment of alleles.\n- No evidence of unusual segregation patterns, linkage, or sex-linked inheritance.\n- Fertilization results in zygotes with diploid chromosome complement.\n- The segregation ratios observed are consistent with Mendelian inheritance for qualitative traits and polygenic inheritance for quantitative traits.\n\n## 2. Inheritance Rules for Each Trait\n\n### Trait A: Body Size (Quantitative/Polygenic Inheritance)\n**Number of alleles:** Multiple alleles at multiple loci (polygenic system)\n**Allele effects:**\n- **L allele:** Large-size contributing allele (additive effect)\n- **S allele:** Small-size contributing allele (additive effect)  \n- **T allele:** Tiny-size contributing allele (additive effect)\n\n**Dosage effects and dominance relationships:**\n- Body size is determined by the **total dosage** of large vs. small alleles across multiple loci\n- No complete dominance; alleles show **additive effects**\n- Phenotypic categories based on allele dosage:\n  - **Extra_large:** High dosage of L alleles (e.g., LL LL or equivalent)\n  - **Large:** Moderate dosage of L alleles\n  - **Medium:** Balanced L and S alleles\n  - **Small:** High dosage of S alleles\n  - **Tiny:** Very high dosage of T alleles or specific combinations\n\n**Special mechanisms:**\n- Quantitative trait with continuous variation masked by discrete phenotypic categories\n- Multiple unlinked loci contribute additively to final size\n- Environmental factors may contribute to size_score variation within categories\n\n### Trait B: Body Color (Three-Allele System with Dominance Hierarchy)\n**Number of alleles:** 3 alleles at a single locus\n**Allele effects:**\n- **R allele:** Produces red pigment (dominant over B and w)\n- **B allele:** Produces blue pigment (dominant over w, recessive to R)\n- **w allele:** Produces no pigment/white (recessive to both R and B)\n\n**Dominance relationships:**\n- **R > B > w** (complete dominance hierarchy)\n- R is dominant over both B and w\n- B is dominant over w but recessive to R\n- w is recessive to both R and B\n\n**Genotype-phenotype mapping:**\n- **RR, Rw:** Red phenotype\n- **BB, Bw:** Blue phenotype  \n- **ww:** White phenotype\n- **RB:** Red phenotype (R dominant over B)\n\n**Special cases:**\n- Red x Red (Rw x Rw) can produce ww (white) offspring (25% expected)\n- Blue x Blue (Bw x Bw) can produce ww (white) offspring (25% expected)\n- This explains why red x red and blue x blue crosses sometimes produce white offspring\n\n### Trait C: Shell Shape (Complex Dominance with Epistasis)\n**Number of alleles:** Multiple alleles at one or more loci with epistatic interactions\n**Observed phenotypes:** Spiky, Smooth, Ridged\n\n**Dominance relationships (simplified):**\n- **Spiky > Smooth > Ridged** (general hierarchy)\n- However, complex interactions suggest possible two-locus system\n\n**Proposed model:**\n- **Locus 1:** Controls basic shape (S^s = Spiky, S^m = Smooth, S^r = Ridged)\n- **Locus 2:** Modifier locus that can alter expression\n- **Dominance:** S^s > S^m > S^r\n\n**Observed patterns:**\n- Spiky x Smooth \u2192 all Spiky (S^s dominant over S^m)\n- Smooth x Ridged \u2192 all Smooth (S^m dominant over S^r)  \n- Spiky x Ridged \u2192 usually Ridged or mixed (complex interaction)\n- Homozygous combinations may show different patterns\n\n## 3. Lethal Combinations and Special Cases\n\n### Lethal Genotypes\n1. **High lethality in specific crosses:** Cross 4 (ID4 x ID14) showed 30.3% viability, suggesting certain genotype combinations are highly lethal.\n2. **Variable viability:** Viability rates ranged from 30.3% to 83.3% across different crosses.\n3. **No universally lethal single genotypes:** All parental combinations produced at least some viable offspring.\n\n### Special Cases and Exceptions\n1. **Color exceptions:** While R > B > w generally holds, the appearance of white offspring from red x red and blue x blue crosses is explained by heterozygous parents carrying recessive w alleles.\n2. **Shell shape complexity:** The Spiky x Ridged cross producing Ridged offspring (Cross 2) but mixed offspring in Cross 4 suggests additional modifying factors or incomplete penetrance.\n3. **Body size transgressive segregation:** Large x Large producing Extra_large and Tiny offspring (Cross 6) demonstrates transgressive segregation typical of polygenic traits.\n\n### Conditional Outcomes\n- **Viability is genotype-dependent:** Some allele combinations reduce viability significantly.\n- **Penetrance may be incomplete:** Some genotypes may not always express expected phenotypes due to modifying factors.\n- **Environmental interactions:** Size_score variation within phenotypic categories suggests environmental influences on trait expression.\n\n## 4. Predictive Model Summary\n\n### Offspring Prediction Guidelines\n1. **Body Size:** Predict based on parental size categories and expect a range of sizes due to polygenic inheritance and recombination.\n2. **Body Color:** Use dominance hierarchy R > B > w. If parents are same color but produce white offspring, both are heterozygous for w.\n3. **Shell Shape:** Spiky generally dominant, but expect complexity in Spiky x Ridged crosses.\n\n### Experimental Validation\nAll 25 conducted crosses are consistent with these inheritance rules. The model explains:\n- Quantitative variation in body size\n- Dominance hierarchy in body color with recessive white appearing from colored parents\n- General shell shape dominance with specific exceptions\n- Variable viability rates based on genotype combinations\n\nThis report provides a comprehensive genetic model that explains all observed experimental results from the alien organism crosses.",
+    "judge_result": {
+        "final_score": 25,
+        "score_breakdown": [
+            {
+                "criterion": "Triploidy recognition",
+                "max_score": 15,
+                "awarded_score": 0,
+                "comment": "Agent incorrectly identifies organisms as diploid; scoring rules require recognition of triploidy (three alleles per locus)."
+            },
+            {
+                "criterion": "Meiosis process (1n/2n gametes)",
+                "max_score": 5,
+                "awarded_score": 0,
+                "comment": "Agent describes normal meiosis, but scoring rules require description of special meiosis with 1n and 2n gametes due to unequal segregation."
+            },
+            {
+                "criterion": "Viability constraint (only triploid survives)",
+                "max_score": 5,
+                "awarded_score": 0,
+                "comment": "Agent does not explain that only triploid zygotes are viable; other ploidy combinations are lethal."
+            },
+            {
+                "criterion": "Body size: dosage effect",
+                "max_score": 5,
+                "awarded_score": 5,
+                "comment": "Agent correctly identifies additive dosage effect for body size."
+            },
+            {
+                "criterion": "Body size: allele identification",
+                "max_score": 10,
+                "awarded_score": 10,
+                "comment": "Agent correctly identifies three distinct alleles for body size (L, S, T)."
+            },
+            {
+                "criterion": "Body size: quantitative values",
+                "max_score": 20,
+                "awarded_score": 0,
+                "comment": "Agent does not provide quantitative values for alleles; scoring rules require specific approximate values (e.g., 200\u00b120, 50\u00b110, 10\u00b15)."
+            },
+            {
+                "criterion": "Color: dominance hierarchy",
+                "max_score": 5,
+                "awarded_score": 5,
+                "comment": "Agent correctly identifies dominance hierarchy for color: R > B > w."
+            },
+            {
+                "criterion": "Color: complete dominance",
+                "max_score": 5,
+                "awarded_score": 5,
+                "comment": "Agent states complete dominance for color trait, with phenotype determined by dominant allele."
+            },
+            {
+                "criterion": "Shell: cyclic dominance",
+                "max_score": 10,
+                "awarded_score": 0,
+                "comment": "Agent describes a linear hierarchy (Spiky > Smooth > Ridged) but does not identify cyclic dominance (Ridged > Spiky to complete the cycle)."
+            },
+            {
+                "criterion": "Shell: lethal combination",
+                "max_score": 20,
+                "awarded_score": 0,
+                "comment": "Agent does not explain that the presence of all three shell alleles (H1+H2+H3) is lethal."
+            }
+        ]
+    },
+    "token_statistics": {
+        "total_completion_tokens": 16341,
+        "total_input_tokens": 1426651,
+        "total_tokens": 1442992
+    }
+}

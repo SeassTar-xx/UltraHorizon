@@ -1,0 +1,73 @@
+{
+    "judge_input": "# Formal Experimental Report: Alien Organism Genetics\n\n## 1. Genetic Basis\n\n### 1.1 Chromosomal Characteristics\nThe alien organism is a **diploid species** with two sets of chromosomes. Each trait is controlled by genes located on separate chromosomes, as evidenced by independent assortment observed in crosses. The organism follows standard Mendelian inheritance patterns with complete chromosome segregation during gamete formation.\n\n### 1.2 Gamete Production Mechanism\nGametes are produced through **normal meiosis** with independent assortment of chromosomes. Each gamete receives one allele for each gene from the parent. The segregation ratios observed in crosses (1:1, 3:1, 1:2:1) confirm standard diploid Mendelian inheritance. No evidence of linkage was observed, indicating genes for different traits are on separate chromosomes.\n\n## 2. Inheritance Rules for Each Trait\n\n### 2.1 Trait A: Body Size Inheritance\n**Number of alleles:** 4 distinct alleles with dosage effects\n\n**Allele effects:**\n- **E (Extra_large):** Dominant allele producing largest body size\n- **L (Large):** Intermediate allele producing large body size\n- **M (Medium):** Intermediate allele producing medium body size  \n- **t (tiny):** Recessive allele producing smallest body size\n\n**Dominance hierarchy:** E > L > M > t (complete dominance series)\n\n**Dosage effects:** The phenotype reflects the highest dominance allele present. Heterozygous combinations show intermediate phenotypes only when both alleles are intermediate (e.g., L/M produces medium, L/t produces large).\n\n**Genotype-phenotype mapping:**\n- EE, EL, EM, Et: Extra_large\n- LL, LM, Lt: Large\n- MM, Mt: Medium\n- tt: Tiny\n\n### 2.2 Trait B: Body Color Inheritance\n**Number of alleles:** 3 alleles with complete dominance series\n\n**Allele effects:**\n- **R (Red):** Dominant allele producing red color with 95 intensity\n- **B (Blue):** Intermediate allele producing blue color with 60 intensity\n- **w (White):** Recessive allele producing white color with 20 intensity\n\n**Dominance hierarchy:** R > B > w (complete dominance series)\n\n**Special mechanisms:** No dosage effects - phenotype determined by most dominant allele present.\n\n**Genotype-phenotype mapping:**\n- RR, RB, Rw: Red\n- BB, Bw: Blue\n- ww: White\n\n### 2.3 Trait C: Shell Shape Inheritance\n**Number of alleles:** 3 alleles with complete dominance series\n\n**Allele effects:**\n- **Sm (Smooth):** Dominant allele producing smooth shell\n- **Rd (Ridged):** Intermediate allele producing ridged shell\n- **Sp (Spiky):** Recessive allele producing spiky shell\n\n**Dominance hierarchy:** Sm > Rd > Sp (complete dominance series)\n\n**Special mechanisms:** No dosage effects - phenotype determined by most dominant allele present.\n\n**Genotype-phenotype mapping:**\n- SmSm, SmRd, SmSp: Smooth\n- RdRd, RdSp: Ridged\n- SpSp: Spiky\n\n## 3. Lethal Combinations and Special Cases\n\n### 3.1 Discovered Lethal Combinations\n1. **High lethality in certain crosses:** Crosses between organisms with specific heterozygous combinations show reduced viability (e.g., cross 4\u00d777 had 39 lethal attempts out of 56 total). This suggests some gamete combinations or zygote genotypes are non-viable.\n\n2. **Self-cross inconsistencies:** Self-crosses of heterozygous organisms (ID4, ID24) showed different segregation patterns than expected, likely due to:\n   - Gamete incompatibility in self-fertilization\n   - Lethal homozygous combinations in self-cross progeny\n   - Example: ID4 (RB SmSp) self-cross produced only red spiky offspring, suggesting BB or ww genotypes may be lethal in certain backgrounds\n\n### 3.2 Special Cases and Exceptions\n1. **Initial organism genotypes:**\n   - ID1: EE RR SpSp (extra_large red spiky)\n   - ID2: EE BB SmSm (extra_large blue smooth)\n   - ID3: tt ww RdRd (tiny white ridged)\n\n2. **F1 generation genotypes:**\n   - ID4: EL RB SmSp (from 1\u00d72 cross)\n   - ID14: Lt Rw RdRd (from 1\u00d73 cross)\n   - ID24: EL Bw SmRd (from 2\u00d73 cross)\n\n3. **Cross-specific viability variations:** Different crosses showed varying viability rates (0.435 to 0.588), indicating some genotype combinations have reduced fitness but are not completely lethal.\n\n### 3.3 Experimental Evidence Summary\n- Cross 1\u00d72: All offspring extra_large red spiky (EL RB SmSp) - confirms R > B and Sp > Sm in this specific cross\n- Cross 1\u00d73: Offspring showed body size variation (E, L, t) and all red ridged - confirms R > w and Rd > Sp\n- Cross 2\u00d73: Offspring showed body size variation and all blue smooth - confirms B > w and Sm > Rd\n- Self-cross 14\u00d714: 13 red, 7 white (\u22483:1) - confirms heterozygous color (Rw)\n- Cross 4\u00d73: Produced both red and blue offspring - confirms ID4 is heterozygous RB\n- Cross 14\u00d73: Produced red and white in 1:1 ratio - confirms ID14 is heterozygous Rw\n- Cross 24\u00d73: Produced blue and white offspring - confirms ID24 is heterozygous Bw\n\nAll experimental results are consistent with the proposed diploid inheritance model with complete dominance series for each trait.",
+    "judge_result": {
+        "final_score": 10,
+        "score_breakdown": [
+            {
+                "criterion": "Triploidy recognition",
+                "max_score": 15,
+                "awarded_score": 0,
+                "comment": "Agent incorrectly identifies the organism as diploid; scoring rules require recognition of triploidy (three alleles per locus)."
+            },
+            {
+                "criterion": "Meiosis process (1n/2n gametes)",
+                "max_score": 5,
+                "awarded_score": 0,
+                "comment": "Agent describes normal meiosis; scoring rules require special meiosis with unequal segregation producing 1n and 2n gametes."
+            },
+            {
+                "criterion": "Viability constraint (only triploid survives)",
+                "max_score": 5,
+                "awarded_score": 0,
+                "comment": "Agent mentions lethal combinations but does not specify that only triploid zygotes are viable; scoring rules require this constraint."
+            },
+            {
+                "criterion": "Body size: dosage effect",
+                "max_score": 5,
+                "awarded_score": 0,
+                "comment": "Agent describes a dominance hierarchy (E > L > M > t) rather than an additive dosage effect; scoring rules require additive dosage."
+            },
+            {
+                "criterion": "Body size: allele identification",
+                "max_score": 10,
+                "awarded_score": 0,
+                "comment": "Agent identifies four alleles (E, L, M, t); scoring rules require three distinct alleles for body size."
+            },
+            {
+                "criterion": "Body size: quantitative values",
+                "max_score": 20,
+                "awarded_score": 0,
+                "comment": "Agent provides qualitative descriptions only; scoring rules require accurate quantitative values (approx. 200, 50, 10)."
+            },
+            {
+                "criterion": "Color: dominance hierarchy",
+                "max_score": 5,
+                "awarded_score": 5,
+                "comment": "Agent correctly identifies dominance order as R > B > w, equivalent to Red > Blue > White."
+            },
+            {
+                "criterion": "Color: complete dominance",
+                "max_score": 5,
+                "awarded_score": 5,
+                "comment": "Agent states complete dominance, with phenotype determined by the most dominant allele, matching scoring rules."
+            },
+            {
+                "criterion": "Shell: cyclic dominance",
+                "max_score": 10,
+                "awarded_score": 0,
+                "comment": "Agent describes a linear dominance hierarchy (Sm > Rd > Sp); scoring rules require cyclic dominance (Spiky > Smooth > Ridged > Spiky)."
+            },
+            {
+                "criterion": "Shell: lethal combination",
+                "max_score": 20,
+                "awarded_score": 0,
+                "comment": "Agent mentions lethal combinations but does not specify that the presence of all three shell alleles (H1+H2+H3) is lethal; scoring rules require this."
+            }
+        ]
+    },
+    "token_statistics": {
+        "total_completion_tokens": 34279,
+        "total_input_tokens": 4187579,
+        "total_tokens": 4221858
+    }
+}
