@@ -88,7 +88,6 @@ class SequenceExploreEnvironment:
         
         # Add judge config for evaluation
         self.judge_config = self.load_judge_config()
-        # self.env_prompt = ENV_PROMPT.format(required_steps=self.required_steps)
         if free:
             self.env_prompt = ENV_PROMPT.replace(" There is a required total steps of {required_steps} to complete the game.","")
         else:
@@ -99,7 +98,7 @@ class SequenceExploreEnvironment:
     def load_judge_config(self):
         """Load judge model configuration from a YAML file"""
         import yaml
-        config_path = 'judge_config.yaml' #os.path.join(os.path.dirname(__file__), 'judge_config.yaml')
+        config_path = 'judge_config.yaml'
         with open(config_path, 'r') as f:
             config = yaml.safe_load(f)
         print("Judge config loaded:", config)
